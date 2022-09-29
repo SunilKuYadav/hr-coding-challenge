@@ -1,0 +1,233 @@
+# Coading Practice in C++ | Javascript | Python
+
+## Introduction
+
+## Array
+
+### Introduction
+
+### Feature
+
+### Real life application
+
+### Problem Practice
+
+## Matrix
+
+### Introduction
+
+### Feature
+
+### Real life application
+
+### Problem Practice
+
+## String
+
+### Introduction
+
+### Feature
+
+### Real life application
+
+### Problem Practice
+
+## Hashing
+
+### Introduction
+
+### Feature
+
+### Real life application
+
+### Problem Practice
+
+## Linked List
+
+### Introduction
+
+### Feature
+
+### Real life application
+
+### Problem Practice
+
+## Stack
+
+### Introduction
+
+### Feature
+
+### Real life application
+
+### Problem Practice
+
+## Queue
+
+### Introduction
+
+### Feature
+
+### Real life application
+
+### Problem Practice
+
+## Binary Tree
+
+### Introduction
+
+### Feature
+
+### Real life application
+
+### Problem Practice
+
+## Binary Search Tree
+
+### Introduction
+
+### Feature
+
+### Real life application
+
+### Problem Practice
+
+## Heap
+
+### Introduction
+
+### Feature
+
+### Real life application
+
+### Problem Practice
+
+## Graph
+
+### Introduction
+
+### Feature
+
+### Real life application
+
+### Problem Practice
+
+## Searching
+
+### Introduction
+
+### Feature
+
+### Real life application
+
+### Problem Practice
+
+## Sorting
+
+### Introduction
+
+### Feature
+
+### Real life application
+
+### Problem Practice
+
+## Divide & Conquer
+
+### Introduction
+
+### Feature
+
+### Real life application
+
+### Problem Practice
+
+## Mathematical
+
+### Introduction
+
+### Feature
+
+### Real life application
+
+### Problem Practice
+
+## Geometric
+
+### Introduction
+
+### Feature
+
+### Real life application
+
+### Problem Practice
+
+## Bitwise
+
+### Introduction
+
+### Feature
+
+### Real life application
+
+### Problem Practice
+
+## Greedy
+
+### Introduction
+
+### Feature
+
+### Real life application
+
+### Problem Practice
+
+## Backtracking
+
+### Introduction
+
+### Feature
+
+### Real life application
+
+### Problem Practice
+
+## Branch & Bound
+
+### Introduction
+
+### Feature
+
+### Real life application
+
+### Problem Practice
+
+## Dynamic Programming
+
+### Introduction
+
+### Feature
+
+### Real life application
+
+### Problem Practice
+
+## Pattern Search
+
+### Introduction
+
+### Feature
+
+### Real life application
+
+### Problem Practice
+
+## Randomezed
+
+### Introduction
+
+### Feature
+
+### Real life application
+
+### Problem Practice
