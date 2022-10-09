@@ -1,0 +1,32 @@
+Language doc
+
+{Topic:{
+    subtopic:{
+        note:'',
+        feature:[{
+            heading,defination,expression,example,
+        }],
+        {Problem_Name :{
+        problem_practice_link: string;
+        problem_statement_link: string;
+        solution:{
+            python:'',
+            javascript:'',
+        };
+        notes:'';
+        tag:[];
+}}
+    }
+}}
+
+DSA doc
+{Problem_Name :{
+    problem_practice_link: string;
+    problem_statement_link: string;
+    solution:{
+        python:'',
+        javascript:'',
+    };
+    notes:'';
+    tag:[];
+}}
