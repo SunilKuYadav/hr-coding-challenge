@@ -15,7 +15,7 @@ How do you design a vending machine?
 How do you find the missing number in a given integer array of 1 to 100?
 How do you find the duplicate number on a given integer array?
 How do you find duplicate numbers in an array if it contains multiple duplicates?
-Difference between a stable and unstable sorting algorithm? (answer)
+Difference between a stable and unstable sorting algorithm? 
 How is an iterative quicksort algorithm implemented?
 How do you find the largest and smallest number in an unsorted integer array?
 How do you reverse a linked list in place?
@@ -53,7 +53,7 @@ How are duplicate nodes removed in an unsorted linked list?
 How do you find the length of a singly linked list?
 How do you find the third node from the end in a singly linked list?
 How do you find the sum of two linked lists using Stack?
-What is the difference between array and linked list? (answer)
+What is the difference between array and linked list? 
 How to remove duplicates from a sorted linked list?
 How to find the node at which the intersection of two singly linked lists begins.
 Given a linked list and a value x, partition it such that all nodes less than x come before nodes greater than or equal to x.
@@ -91,12 +91,12 @@ How to reverse a given Integer in Java?
 How to convert a decimal number to binary in Java?
 How to check if a given year is a leap year in Java?
 Can you implement a Binary search Algorithm without recursion?
-Difference between a stable and unstable sorting algorithm? (answer)
+Difference between a stable and unstable sorting algorithm? 
 What is Depth First Search Algorithm for a binary tree?
 How is an iterative quicksort algorithm implemented?
 How do you implement an insertion sort algorithm?
 How is a merge sort algorithm implemented?
-What is the difference between Comparison and Non-Comparison Sorting Algorithms? (answer)
+What is the difference between Comparison and Non-Comparison Sorting Algorithms? 
 How do implement Sieve of Eratosthenes Algorithms for Prime Number?
 Positive or Negative number
 Even or Odd number
@@ -124,7 +124,7 @@ Perfect number
 Perfect Square
 Automorphic number
 Harshad number
-Abundant number : C| C++ | Java | Python
+Abundant number
 Friendly pair
 Highest Common Factor(HCF)
 Lowest Common Multiple (LCM)
@@ -181,8 +181,8 @@ Sort first half in ascending order and second half in descending
 Sort the elements of an array
 Finding the frequency of elements in an array
 Sorting elements of an array by frequency
-Finding the Longest Palindrome in an Array : C | C++ | Java| Python
-Counting Distinct Elements in an Array : C | C++ | Java| Python
+Finding the Longest Palindrome in an Array 
+Counting Distinct Elements in an Array 
 Finding Repeating elements in an Array
 Finding Non Repeating elements in an Array
 Removing Duplicate elements from an array
@@ -197,9 +197,9 @@ Determine can all numbers of an array be made equal
 Finding Minimum sum of absolute difference of given array
 Sort an array according to the order defined by another array
 Replace each element of the array by its rank in the array
-Finding equilibrium index of an array : C | C++ | Java| Python
-Rotation of elements of array- left and right : C | C++ | Java| Python
-Block swap algorithm for array rotation : C | C++ | Java| Python
+Finding equilibrium index of an array 
+Rotation of elements of array- left and right 
+Block swap algorithm for array rotation 
 Juggling algorithm for array rotation
 Finding Circular rotation of an array by K positions
 Balanced Parenthesis Problem
