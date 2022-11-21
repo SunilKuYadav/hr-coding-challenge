@@ -52,16 +52,16 @@
 48. How do you find the middle element of a singly linked list in one pass?
 49. How do you check if a given linked list contains a cycle? How do you find the starting node of the cycle?
 50. How do you reverse a linked list?
-    How do you reverse a singly linked list without recursion?
-    How are duplicate nodes removed in an unsorted linked list?
-    How do you find the length of a singly linked list?
-    How do you find the third node from the end in a singly linked list?
-    How do you find the sum of two linked lists using Stack?
-    What is the difference between array and linked list? (answer)
-    How to remove duplicates from a sorted linked list?
-    How to find the node at which the intersection of two singly linked lists begins.
-    Given a linked list and a value x, partition it such that all nodes less than x come before nodes greater than or equal to x.
-    How to check if a given linked list is a palindrome?
+51. How do you reverse a singly linked list without recursion?
+52. How are duplicate nodes removed in an unsorted linked list?
+53. How do you find the length of a singly linked list?
+54. How do you find the third node from the end in a singly linked list?
+55. How do you find the sum of two linked lists using Stack?
+56. What is the difference between array and linked list? (answer)
+57. How to remove duplicates from a sorted linked list?
+58. How to find the node at which the intersection of two singly linked lists begins.
+59. Given a linked list and a value x, partition it such that all nodes less than x come before nodes greater than or equal to x.
+60. How to check if a given linked list is a palindrome?
     How to remove all elements from a linked list of integers which matches with given value?
     How is a binary search tree implemented?
     How do you perform preorder traversal in a given binary tree?
