@@ -1,5 +1,9 @@
 # hr-coding-challenge
 
+[see](#Warm-up Challenges)
+[see](#DATA STRUCTURE AND ALGORITHMS)
+[see](#Language)
+
 ## Warm-up Challenges
 
 1. How is a bubble sort algorithm implemented? [Solution in JS](./code/warmup/javascript/001.js)
@@ -270,6 +274,9 @@
 
 # DATA STRUCTURE AND ALGORITHMS
 
+[see](#Array)
+[see](#Recursion)
+
 ## Array
 
 1. Reverse the array [Solution in JS](./code/javascript/00array/reverse_the_array.js)
@@ -289,7 +296,12 @@
 
 # Language
 
+[see](#JavaScript)
+
 ## JavaScript
+
+[see](#Object)
+[see](#Promiss)
 
 1. Object
    1. [part 1](./code/javascript/object/00intro.js)
