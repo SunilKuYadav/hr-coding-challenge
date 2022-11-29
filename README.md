@@ -1,8 +1,8 @@
 # hr-coding-challenge
 
-[see](#Warm-up Challenges)
-[see](#DATA STRUCTURE AND ALGORITHMS)
-[see](#Language)
+[Goto Warm-up Challenges](#Warm-up Challenges)
+[Goto Languages](#Language)
+[Goto DSA](#DATA STRUCTURE AND ALGORITHMS)
 
 # Warm-up Challenges
 
@@ -274,8 +274,8 @@
 
 # DATA STRUCTURE AND ALGORITHMS
 
-[Array](##Array)
-[Recursion](##Recursion)
+[Goto Array](##Array)
+[Goto Recursion](##Recursion)
 
 ## Array
 
@@ -296,12 +296,12 @@
 
 # Language
 
-[JavaScript](##JavaScript)
+[Goto JavaScript](##JavaScript)
 
 ## JavaScript
 
-[Object](#Object)
-[Promiss](#Promiss)
+[Goto Object](#Object)
+[Goto Promiss](#Promiss)
 
 1. Object
    1. [part 1](./code/javascript/object/00intro.js)
