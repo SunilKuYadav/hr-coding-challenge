@@ -291,5 +291,8 @@
 
 ## JavaScript
 
-1. Object [part 1](./code/javascript/object/00intro.js) [Depth of Object](./code/javascript/object/depthOfObject.js)
-2. Promiss [part 1](./code/javascript/promise/00intro.js)
+1. Object
+   I. [part 1](./code/javascript/object/00intro.js)
+   II. [Depth of Object](./code/javascript/object/depthOfObject.js)
+2. Promiss
+   I. [part 1](./code/javascript/promise/00intro.js)
