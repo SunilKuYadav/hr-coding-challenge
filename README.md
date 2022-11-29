@@ -282,3 +282,14 @@
 8. Minimise the maximum difference between heights [V.IMP]
 9. Minimum no. of Jumps to reach end of an array
 10. find duplicate in an array of N+1 Integers
+
+## Recursion
+
+1. Calculate the sum of N natural number [Solution in JS](./code/javascript/03recursion/sum-of-N-natural-number.js)
+
+# Language
+
+## JavaScript
+
+1. Object [part 1](./code/javascript/object/00intro.js) [Depth of Object](./code/javascript/object/depthOfObject.js)
+2. Promiss [part 1](./code/javascript/promise/00intro.js)
