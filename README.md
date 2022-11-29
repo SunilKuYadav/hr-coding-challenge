@@ -4,7 +4,7 @@
 [see](#DATA STRUCTURE AND ALGORITHMS)
 [see](#Language)
 
-## Warm-up Challenges
+# Warm-up Challenges
 
 1. How is a bubble sort algorithm implemented? [Solution in JS](./code/warmup/javascript/001.js)
 2. How is a merge sort algorithm implemented? [Solution in JS](./code/warmup/javascript/002.js)
@@ -274,8 +274,8 @@
 
 # DATA STRUCTURE AND ALGORITHMS
 
-[see](#Array)
-[see](#Recursion)
+[Array](##Array)
+[Recursion](##Recursion)
 
 ## Array
 
@@ -296,12 +296,12 @@
 
 # Language
 
-[see](#JavaScript)
+[JavaScript](##JavaScript)
 
 ## JavaScript
 
-[see](#Object)
-[see](#Promiss)
+[Object](#Object)
+[Promiss](#Promiss)
 
 1. Object
    1. [part 1](./code/javascript/object/00intro.js)
