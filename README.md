@@ -19,7 +19,7 @@
 15. How do you find the missing number in a given integer array of 1 to 100?
 16. How do you find the duplicate number on a given integer array?
 17. How do you find duplicate numbers in an array if it contains multiple duplicates?
-18. Difference between a stable and unstable sorting algorithm? (answer)
+18. Difference between a stable and unstable sorting algorithm?
 19. How is an iterative quicksort algorithm implemented?
 20. How do you find the largest and smallest number in an unsorted integer array?
 21. How do you reverse a linked list in place?
