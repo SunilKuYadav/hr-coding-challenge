@@ -2,26 +2,26 @@
 
 ## Warm-up Challenges
 
-1. How is a bubble sort algorithm implemented?
-2. How is a merge sort algorithm implemented?
-3. How do you count the occurrence of a given character in a string?
-4. How do you print the first non-repeated character from a string?
-5. How do you convert a given String into int like the atoi()?
-6. How do you implement a bucket sort algorithm?
-7. How do you implement a counting sort algorithm?
-8. How do you remove duplicates from an array in place?
-9. How do you reverse an array in place in Java?
-10. How are duplicates removed from an array without using any library?
-11. How is a radix sort algorithm implemented?
-12. How do you swap two numbers without using the third variable?
-13. How do you check if two rectangles overlap with each other?
-14. How do you design a vending machine?
-15. How do you find the missing number in a given integer array of 1 to 100?
-16. How do you find the duplicate number on a given integer array?
-17. How do you find duplicate numbers in an array if it contains multiple duplicates?
-18. Difference between a stable and unstable sorting algorithm?
-19. How is an iterative quicksort algorithm implemented?
-20. How do you find the largest and smallest number in an unsorted integer array?
+1. How is a bubble sort algorithm implemented? [Solution in JS](./code/warmup/javascript/001.js)
+2. How is a merge sort algorithm implemented? [Solution in JS](./code/warmup/javascript/002.js)
+3. How do you count the occurrence of a given character in a string? [Solution in JS](./code/warmup/javascript/003.js)
+4. How do you print the first non-repeated character from a string? [Solution in JS](./code/warmup/javascript/004.js)
+5. How do you convert a given String into int like the atoi()? [Solution in JS](./code/warmup/javascript/005.js)
+6. How do you implement a bucket sort algorithm? [Solution in JS](./code/warmup/javascript/006.js)
+7. How do you implement a counting sort algorithm? [Solution in JS](./code/warmup/javascript/007.js)
+8. How do you remove duplicates from an array in place? [Solution in JS](./code/warmup/javascript/008.js)
+9. How do you reverse an array in place in Java? [Solution in JS](./code/warmup/javascript/009.js)
+10. How are duplicates removed from an array without using any library? [Solution in JS](./code/warmup/javascript/010.js)
+11. How is a radix sort algorithm implemented? [Solution in JS](./code/warmup/javascript/011.js)
+12. How do you swap two numbers without using the third variable? [Solution in JS](./code/warmup/javascript/012.js)
+13. How do you check if two rectangles overlap with each other? [Solution in JS](./code/warmup/javascript/013.js)
+14. How do you design a vending machine? [Solution in JS](./code/warmup/javascript/014.js)
+15. How do you find the missing number in a given integer array of 1 to 100? [Solution in JS](./code/warmup/javascript/015.js)
+16. How do you find the duplicate number on a given integer array? [Solution in JS](./code/warmup/javascript/016.js)
+17. How do you find duplicate numbers in an array if it contains multiple duplicates? [Solution in JS](./code/warmup/javascript/017.js)
+18. Difference between a stable and unstable sorting algorithm? [Solution in JS](./code/warmup/javascript/018.js)
+19. How is an iterative quicksort algorithm implemented? [Solution in JS](./code/warmup/javascript/019.js)
+20. How do you find the largest and smallest number in an unsorted integer array? [Solution in JS](./code/warmup/javascript/020.js)
 21. How do you reverse a linked list in place?
 22. How to add an element at the middle of the linked list?
 23. How do you sort a linked list in Java?
@@ -62,38 +62,38 @@
 58. How to find the node at which the intersection of two singly linked lists begins.
 59. Given a linked list and a value x, partition it such that all nodes less than x come before nodes greater than or equal to x.
 60. How to check if a given linked list is a palindrome?
-    How to remove all elements from a linked list of integers which matches with given value?
-    How is a binary search tree implemented?
-    How do you perform preorder traversal in a given binary tree?
-    How do you traverse a given binary tree in preorder without recursion?
-    How do you perform an inorder traversal in a given binary tree?
-    How do you print all nodes of a given binary tree using inorder traversal without recursion?
-    How do you implement a postorder traversal algorithm?
-    How do you traverse a binary tree in postorder traversal without recursion?
-    How are all leaves of a binary search tree printed?
-    How do you count a number of leaf nodes in a given binary tree?
-    How do you perform a binary search in a given array?
-    How to Swap two numbers without using the third variable?
-    How to check if two rectangles overlap with each other?
-    How to design a Vending Machine?
-    How to implement an LRU Cache in your favorite programming language?
-    How to check if a given number is a Palindrome?
-    How to check if a given number is an Armstrong number?
-    How to find all prime factors of a given number?
-    How to check if a given number is positive or negative in Java?
-    How to find the largest prime factor of a given integral number?
-    How to print all prime numbers up to a given number?
-    How to print Floyd’s triangle?
-    How to print Pascal’s triangle?
-    How to calculate the square root of a given number?
-    How to check if the given number is a prime number?
-    How to add two numbers without using the plus operator in Java?
-    How to check if a given number is even/odd without using the Arithmetic operator?
-    How to print a given Pyramid structure?
-    How to find the highest repeating world from a given file in Java?
-    How to reverse a given Integer in Java?
-    How to convert a decimal number to binary in Java?
-    How to check if a given year is a leap year in Java?
+61. How to remove all elements from a linked list of integers which matches with given value?
+62. How is a binary search tree implemented?
+63. How do you perform preorder traversal in a given binary tree?
+64. How do you traverse a given binary tree in preorder without recursion?
+65. How do you perform an inorder traversal in a given binary tree?
+66. How do you print all nodes of a given binary tree using inorder traversal without recursion?
+67. How do you implement a postorder traversal algorithm?
+68. How do you traverse a binary tree in postorder traversal without recursion?
+69. How are all leaves of a binary search tree printed?
+70. How do you count a number of leaf nodes in a given binary tree?
+71. How do you perform a binary search in a given array?
+72. How to Swap two numbers without using the third variable?
+73. How to check if two rectangles overlap with each other?
+74. How to design a Vending Machine?
+75. How to implement an LRU Cache in your favorite programming language?
+76. How to check if a given number is a Palindrome?
+77. How to check if a given number is an Armstrong number?
+78. How to find all prime factors of a given number?
+79. How to check if a given number is positive or negative in Java?
+80. How to find the largest prime factor of a given integral number?
+81. How to print all prime numbers up to a given number?
+82. How to print Floyd’s triangle?
+83. How to print Pascal’s triangle?
+84. How to calculate the square root of a given number?
+85. How to check if the given number is a prime number?
+86. How to add two numbers without using the plus operator in Java?
+87. How to check if a given number is even/odd without using the Arithmetic operator?
+88. How to print a given Pyramid structure?
+89. How to find the highest repeating world from a given file in Java?
+90. How to reverse a given Integer in Java?
+91. How to convert a decimal number to binary in Java?
+92. How to check if a given year is a leap year in Java?
     Can you implement a Binary search Algorithm without recursion?
     Difference between a stable and unstable sorting algorithm? (answer)
     What is Depth First Search Algorithm for a binary tree?
@@ -268,6 +268,17 @@
     Kth smallest element in a row-column wise sorted matrix
     Common elements in all rows of a given matrix
 
+# DATA STRUCTURE AND ALGORITHMS
+
 ## Array
 
-1. Two number sum
+1. Reverse the array [Solution in JS](./code/javascript/00array/reverse_the_array.js)
+2. Find the maximum and minimum element in an array [Solution in JS](./code/javascript/00array/Find_maximum_and_minimum_element%20in_an_array.js)
+3. Find the "Kth" max and min element of an array [Solution in JS](./code/javascript/00array/k-largestor-smallest-elements-in-an-array.js)
+4. Given an array which consists of only 0, 1 and 2. Sort the array without using any sortinMove all the negative elements to one side of the array [Solution in JS](./code/javascript/00array/Move_all_negative_numbers_to_beginning_and_positive_to_end_with_constant_extra_space.js)
+5. Find the Union and Intersection of the two sorted arrays.
+6. Write a program to cyclically rotate an array by one. [Solution in JS](./code/javascript/00array/cyclically-rotate-array.js)
+7. find Largest sum contiguous Subarray [V. IMP]
+8. Minimise the maximum difference between heights [V.IMP]
+9. Minimum no. of Jumps to reach end of an array
+10. find duplicate in an array of N+1 Integers
