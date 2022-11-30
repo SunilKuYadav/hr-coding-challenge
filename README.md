@@ -24,10 +24,10 @@
 20. How do you find the largest and smallest number in an unsorted integer array? [Solution in JS](./code/warmup/javascript/020.js)
 21. How do you reverse a linked list in place?
 22. How to add an element at the middle of the linked list?
-23. How do you sort a linked list in Java?
+23. How do you sort a linked list in JavaScript?
 24. How do you find all pairs of an integer array whose sum is equal to a given number?
 25. How do you implement an insertion sort algorithm?
-26. How are duplicates removed from a given array in Java?
+26. How are duplicates removed from a given array in JavaScript?
 27. how to remove the duplicate character from String?
 28. How to find the maximum occurring character in a given String?
 29. How is an integer array sorted in place using the quicksort algorithm?
