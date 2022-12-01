@@ -24,7 +24,7 @@
 20. How do you find the largest and smallest number in an unsorted integer array? [Solution in JS](./code/warmup/javascript/020.js)
 21. How do you reverse a linked list in place? [Solution in JS](./code/warmup/javascript/021.js)
 22. How to add an element at the middle of the linked list? [Solution in JS](./code/warmup/javascript/022.js)
-23. How do you sort a linked list in JavaScript?
+23. How do you sort a linked list in JavaScript? [Solution in JS](./code/warmup/javascript/023.js)
 24. How do you find all pairs of an integer array whose sum is equal to a given number?
 25. How do you implement an insertion sort algorithm?
 26. How are duplicates removed from a given array in JavaScript?
