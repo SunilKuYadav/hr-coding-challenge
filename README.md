@@ -22,8 +22,8 @@
 18. Difference between a stable and unstable sorting algorithm? [Solution in JS](./code/warmup/javascript/018.js)
 19. How is an iterative quicksort algorithm implemented? [Solution in JS](./code/warmup/javascript/019.js)
 20. How do you find the largest and smallest number in an unsorted integer array? [Solution in JS](./code/warmup/javascript/020.js)
-21. How do you reverse a linked list in place?
-22. How to add an element at the middle of the linked list?
+21. How do you reverse a linked list in place? [Solution in JS](./code/warmup/javascript/021.js)
+22. How to add an element at the middle of the linked list? [Solution in JS](./code/warmup/javascript/022.js)
 23. How do you sort a linked list in JavaScript?
 24. How do you find all pairs of an integer array whose sum is equal to a given number?
 25. How do you implement an insertion sort algorithm?
