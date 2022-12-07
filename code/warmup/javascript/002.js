@@ -50,7 +50,7 @@ const merge = (arr, left, middle, right) => {
     }
     // copy the remaining elements of rightArray[] if there are any
     while (j < rightArrayLength) {
-        arr[k] = leftArray[j];
+        arr[k] = rightArray[j];
         j++;
         k++;
     }
