@@ -27,21 +27,21 @@
 23. How do you sort a linked list in JavaScript? [Solution in JS](./code/warmup/javascript/023.js)
 24. How do you find all pairs of an integer array whose sum is equal to a given number? [Solution in JS](./code/warmup/javascript/024.js)
 25. How do you implement an insertion sort algorithm? [Solution in JS](./code/warmup/javascript/025.js)
-26. How are duplicates removed from a given array in JavaScript?
-27. how to remove the duplicate character from String?
-28. How to find the maximum occurring character in a given String?
-29. How is an integer array sorted in place using the quicksort algorithm?
-30. How do you reverse a given string in place?
-31. How do you print duplicate characters from a string?
-32. How do you check if two strings are anagrams of each other?
-33. How do you find all the permutations of a string?
-34. How can a given string be reversed using recursion?
-35. How do you check if a given string is a palindrome?
-36. How do you find the length of the longest substring without repeating characters?
-37. Given string str, How do you find the longest palindromic substring in str?
-38. How do you check if a string contains only digits?
-39. How to remove Nth Node from the end of a linked list?
-40. How to merge two sorted linked lists?
+26. How are duplicates removed from a given array in JavaScript? [Solution in JS](./code/warmup/javascript/026.js)
+27. how to remove the duplicate character from String? [Solution in JS](./code/warmup/javascript/027.js)
+28. How to find the maximum occurring character in a given String? [Solution in JS](./code/warmup/javascript/028.js)
+29. How is an integer array sorted in place using the quicksort algorithm? [Solution in JS](./code/warmup/javascript/029.js)
+30. How do you reverse a given string in place? [Solution in JS](./code/warmup/javascript/030.js)
+31. How do you print duplicate characters from a string? [Solution in JS](./code/warmup/javascript/031.js)
+32. How do you check if two strings are anagrams of each other? [Solution in JS](./code/warmup/javascript/032.js)
+33. How do you find all the permutations of a string? [Solution in JS](./code/warmup/javascript/033.js)
+34. How can a given string be reversed using recursion? [Solution in JS](./code/warmup/javascript/034.js)
+35. How do you check if a given string is a palindrome? [Solution in JS](./code/warmup/javascript/035.js)
+36. How do you find the length of the longest substring without repeating characters? [Solution in JS](./code/warmup/javascript/036.js)
+37. Given string str, How do you find the longest palindromic substring in str? [Solution in JS](./code/warmup/javascript/037.js)
+38. How do you check if a string contains only digits? [Solution in JS](./code/warmup/javascript/038.js)
+39. How to remove Nth Node from the end of a linked list? [Solution in JS](./code/warmup/javascript/039.js)
+40. How to merge two sorted linked lists? [Solution in JS](./code/warmup/javascript/040.js)
 41. How to convert a sorted list to a binary search tree?
 42. How do you find duplicate characters in a given string?
 43. How do you count the number of vowels and consonants in a given string?
