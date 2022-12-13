@@ -1,5 +1,5 @@
 # hr-coding-challenge
-Hiring Coading Challenges
+Hiring Coding Challenges
 
 # Warm-up Challenges
 
