@@ -104,7 +104,7 @@
 100. How do implement Sieve of Eratosthenes Algorithms for Prime Number?
 101. Positive or Negative number [Solution in JS](./code/warmup/javascript/101.js)
 102. Even or Odd number [Solution in JS](./code/warmup/javascript/102.js)
-103. Sum of First N Natural numbers
+103. Sum of First N Natural [Solution in JS](./code/warmup/javascript/103.js)
 104. Sum of N natural numbers
 105. Sum of numbers in a given range
 106. Greatest of two numbers
