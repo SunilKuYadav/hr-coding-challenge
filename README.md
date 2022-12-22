@@ -105,8 +105,8 @@
 101. Positive or Negative number [Solution in JS](./code/warmup/javascript/101.js)
 102. Even or Odd number [Solution in JS](./code/warmup/javascript/102.js)
 103. Sum of First N Natural [Solution in JS](./code/warmup/javascript/103.js)
-104. Sum of N natural numbers
-105. Sum of numbers in a given range
+104. Sum of N natural numbers [Solution in JS](./code/warmup/javascript/104.js)
+105. Sum of numbers in a given range [Solution in JS](./code/warmup/javascript/105.js)
 106. Greatest of two numbers
 107. Greatest of the Three numbers
 108. Leap year or not
