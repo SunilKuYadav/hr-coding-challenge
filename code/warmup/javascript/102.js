@@ -3,17 +3,15 @@
 const input = [-4, -3, - 2, -1, 0, 1, 2, 3, 4];
 
 const checkNumber = (num) => {
+    // return num % 2 === 0;
+
     // if (num % 2 === 0) {
     //     return true;
     // }
     // return false;
 
     // return num % 2 === 0 ? true : false;
-
-    // return num % 2 === 0;
-
-    return num & 1 === 1 && true;
-
+    // return num & 1 === 1 && true;
     // return num % 2 === 0 && true;
 
 }
