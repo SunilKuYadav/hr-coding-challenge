@@ -6,31 +6,31 @@
 2. How is a merge sort algorithm implemented? [Solution in JS](./code/warmup/javascript/002.js)
 3. How do you count the occurrence of a given character in a string? [Solution in JS](./code/warmup/javascript/003.js)
 4. How do you print the first non-repeated character from a string? [Solution in JS](./code/warmup/javascript/004.js)
-5. How do you convert a given String into int like the atoi()? [Solution in JS](./code/warmup/javascript/005.js)
-6. How do you implement a bucket sort algorithm? [Solution in JS](./code/warmup/javascript/006.js)
-7. How do you implement a counting sort algorithm? [Solution in JS](./code/warmup/javascript/007.js)
-8. How do you remove duplicates from an array in place? [Solution in JS](./code/warmup/javascript/008.js)
+5. How do you convert a given String into int like the atoi()?
+6. How do you implement a bucket sort algorithm?
+7. How do you implement a counting sort algorithm?
+8. How do you remove duplicates from an array in place?
 9. How do you reverse an array in place in Java? [Solution in JS](./code/warmup/javascript/009.js)
-10. How are duplicates removed from an array without using any library? [Solution in JS](./code/warmup/javascript/010.js)
-11. How is a radix sort algorithm implemented? [Solution in JS](./code/warmup/javascript/011.js)
+10. How are duplicates removed from an array without using any library?
+11. How is a radix sort algorithm implemented?
 12. How do you swap two numbers without using the third variable? [Solution in JS](./code/warmup/javascript/012.js)
-13. How do you check if two rectangles overlap with each other? [Solution in JS](./code/warmup/javascript/013.js)
-14. How do you design a vending machine? [Solution in JS](./code/warmup/javascript/014.js)
+13. How do you check if two rectangles overlap with each other?
+14. How do you design a vending machine?
 15. How do you find the missing number in a given integer array of 1 to 100? [Solution in JS](./code/warmup/javascript/015.js)
-16. How do you find the duplicate number on a given integer array? [Solution in JS](./code/warmup/javascript/016.js)
+16. How do you find the duplicate number on a given integer array?
 17. How do you find duplicate numbers in an array if it contains multiple duplicates? [Solution in JS](./code/warmup/javascript/017.js)
 18. Difference between a stable and unstable sorting algorithm? [Solution in JS](./code/warmup/javascript/018.js)
-19. How is an iterative quicksort algorithm implemented? [Solution in JS](./code/warmup/javascript/019.js)
+19. How is an iterative quicksort algorithm implemented?
 20. How do you find the largest and smallest number in an unsorted integer array? [Solution in JS](./code/warmup/javascript/020.js)
 21. How do you reverse a linked list in place? [Solution in JS](./code/warmup/javascript/021.js)
 22. How to add an element at the middle of the linked list? [Solution in JS](./code/warmup/javascript/022.js)
-23. How do you sort a linked list in JavaScript? [Solution in JS](./code/warmup/javascript/023.js)
+23. How do you sort a linked list in JavaScript?
 24. How do you find all pairs of an integer array whose sum is equal to a given number? [Solution in JS](./code/warmup/javascript/024.js)
 25. How do you implement an insertion sort algorithm? [Solution in JS](./code/warmup/javascript/025.js)
 26. How are duplicates removed from a given array in JavaScript? [Solution in JS](./code/warmup/javascript/026.js)
 27. how to remove the duplicate character from String? [Solution in JS](./code/warmup/javascript/027.js)
 28. How to find the maximum occurring character in a given String? [Solution in JS](./code/warmup/javascript/028.js)
-29. How is an integer array sorted in place using the quicksort algorithm? [Solution in JS](./code/warmup/javascript/029.js)
+29. How is an integer array sorted in place using the quicksort algorithm?
 30. How do you reverse a given string in place? [Solution in JS](./code/warmup/javascript/030.js)
 31. How do you print duplicate characters from a string? [Solution in JS](./code/warmup/javascript/031.js)
 32. How do you check if two strings are anagrams of each other? [Solution in JS](./code/warmup/javascript/032.js)
@@ -102,8 +102,8 @@
 98. How is a merge sort algorithm implemented?
 99. What is the difference between Comparison and Non-Comparison Sorting Algorithms? (answer)
 100. How do implement Sieve of Eratosthenes Algorithms for Prime Number?
-101. Positive or Negative number
-102. Even or Odd number
+101. Positive or Negative number [Solution in JS](./code/warmup/javascript/101.js)
+102. Even or Odd number [Solution in JS](./code/warmup/javascript/102.js)
 103. Sum of First N Natural numbers
 104. Sum of N natural numbers
 105. Sum of numbers in a given range
