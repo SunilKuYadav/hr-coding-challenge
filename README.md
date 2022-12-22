@@ -95,179 +95,165 @@ Hiring Coding Challenges
 90. How to reverse a given Integer in Java?
 91. How to convert a decimal number to binary in Java?
 92. How to check if a given year is a leap year in Java?
-    Can you implement a Binary search Algorithm without recursion?
-    Difference between a stable and unstable sorting algorithm? (answer)
-    What is Depth First Search Algorithm for a binary tree?
-    How is an iterative quicksort algorithm implemented?
-    How do you implement an insertion sort algorithm?
-    How is a merge sort algorithm implemented?
-    What is the difference between Comparison and Non-Comparison Sorting Algorithms? (answer)
-    How do implement Sieve of Eratosthenes Algorithms for Prime Number?
-    Positive or Negative number
-    Even or Odd number
-    Sum of First N Natural numbers
-    Sum of N natural numbers
-    Sum of numbers in a given range
-    Greatest of two numbers
-    Greatest of the Three numbers
-    Leap year or not
-    Prime number
-    Prime number within a given range
-    Sum of digits of a number
-    Reverse of a number
-    Palindrome number
-    Armstrong number
-    Armstrong number in a given range
-    Fibonacci Series upto nth term
-    Find the Nth Term of the Fibonacci Series
-    Factorial of a number
-    Power of a number
-    Factor of a number
-    Finding Prime Factors of a number
-    Strong number
-    Perfect number
-    Perfect Square
-    Automorphic number
-    Harshad number
-    Abundant number
-    Friendly pair
-    Highest Common Factor(HCF)
-    Lowest Common Multiple (LCM)
-    Greatest Common Divisor
-    Binary to Decimal to conversion
-    Octal to Decimal conversion
-    Hexadecimal to Decimal conversion
-    Decimal to Binary conversion
-    Decimal to Octal Conversion
-    Decimal to Hexadecimal Conversion
-    Binary to Octal conversion
-    Octal to Binary conversion
-    Quadrants in which a given coordinate lies
-    Permutations in which n people can occupy r seats in a classroom
-    Maximum number of handshakes
-    Addition of two fractions
-    Replace all 0’s with 1 in a given integer
-    Can a number be expressed as a sum of two prime numbers
-    Count possible decoding of a given digit sequence
-    Calculate the area of a circle
-    Find the prime numbers between 1 to 100
-    Calculate the number of digits in an integer
-    Convert digit/number to words
-    Counting number of days in a given month of a year
-    Finding Number of times x digit occurs in a given input
-    Finding number of integers which has exactly x divisors
-    Finding Roots of a quadratic equation
-    Power of a Number
-    Prime Number
-    Largest element in an array
-    Smallest element in an array
-    Reversing a Number
-    HCF of two numbers
-    LCM of two numbers
-    Program to calculate length of the string using recursion
-    Print All Permutations of a String
-    Given an integer N the task is to print the F(N)th term.
-    Given a list arr of N integers, print sums of all subsets in it
-    Last non-zero digit in factorial
-    Given a positive integer N, return the Nth row of pascal’s triangle
-    Given an integer N representing the number of pairs of parentheses, the task is to generate all combinations of well-formed(balanced) parentheses
-    Find the Factorial of a number using recursion
-    Find all possible Palindromic partitions of the given String
-    Find all the N bit binary numbers having more than or equal 1’s than 0’s
-    Given a set of positive integers, find all its subsets
-    Given a string s, remove all its adjacent duplicate characters recursively
-    Find Largest element in an array
-    Find Smallest Element in an Array
-    Find the Smallest and largest element in an array
-    Find Second Smallest Element in an Array
-    Calculate the sum of elements in an array
-    Reverse an Array
-    Sort first half in ascending order and second half in descending
-    Sort the elements of an array
-    Finding the frequency of elements in an array
-    Sorting elements of an array by frequency
-    Finding the Longest Palindrome in an Array
-    Counting Distinct Elements in an Array
-    Finding Repeating elements in an Array
-    Finding Non Repeating elements in an Array
-    Removing Duplicate elements from an array
-    Finding Minimum scalar product of two vectors
-    Finding Maximum scalar product of two vectors in an array
-    Counting the number of even and odd elements in an array
-    Find all Symmetric pairs in an array
-    Find maximum product sub-array in a given array
-    Finding Arrays are disjoint or not
-    Determine Array is a subset of another array or not
-    Determine can all numbers of an array be made equal
-    Finding Minimum sum of absolute difference of given array
-    Sort an array according to the order defined by another array
-    Replace each element of the array by its rank in the array
-    Finding equilibrium index of an array
-    Rotation of elements of array- left and right
-    Block swap algorithm for array rotation
-    Juggling algorithm for array rotation
-    Finding Circular rotation of an array by K positions
-    Balanced Parenthesis Problem
-    Check whether a character is a vowel or consonant
-    Check whether a character is a alphabet or not
-    Find the ASCII value of a character
-    Length of the string without using strlen() function
-    Toggle each character in a string
-    Count the number of vowels
-    Remove the vowels from a String
-    Check if the given string is Palindrome or not
-    Print the given string in reverse order
-    Remove all characters from string except alphabets
-    Remove spaces from a string
-    Remove brackets from an algebraic expression
-    Count the sum of numbers in a string
-    Capitalize the first and last character of each word of a string
-    Calculate frequency of characters in a string
-    Find non-repeating characters in a string
-    Check if two strings are Anagram or not
-    Replace a sub-string in a string
-    Replacing a particular word with another word in a string
-    Count common sub-sequence in two strings
-    Check if two strings match where one string contains wildcard characters
-    Print all permutations of a given string in lexicographically sorted order
-    Given an array which consists of only 0, 1 and 2. Sort the array without using any algorithm
-    Find the “Kth” max and min element of an array
-    Move all the negative elements to one side of the array
-    Find the Union and Intersection of the two sorted arrays.
-    Find Largest sum contiguous Subarray
-    Minimize the maximum difference between heights
-    Minimum no. of Jumps to reach the end of an array
-    Find duplicate in an array of N+1 Integers
-    Merge 2 sorted arrays without using extra space.
-    Kadane’s Algorithm
-    Merge Intervals
-    Count Inversion
-    Best time to buy and Sell stock
-    Find all pairs on integer array whose sum is equal to given number
-    Find if there is any subarray with sum equal to 0
-    Find factorial of a Large Number
-    Find common elements In 3 sorted arrays
-    Rearrange the array in alternating positive and negative items with O(1) extra space
-    Given an array of size n and a number k, find all elements that appear more than ” n/k ” times.
-    Maximum profit by buying and selling a share atmost twice
-    Next Permutation
-    Find longest consecutive subsequence
-    Trapping Rain water problem
-    Chocolate Distribution problem
-    Smallest Subarray with sum greater than a given value
-    Three way partitioning of an array around a given value
-    Minimum no. of operations required to make an array palindrome
-    Median of 2 sorted arrays of equal size
-    Median of 2 sorted arrays of different size
-    Spiral traversal on a Matrix
-    Search an element in a matrix
-    Find median in a row wise sorted matrix
-    Find row with maximum no. of 1’s
-    Print elements in sorted order using row-column wise sorted matrix
-    Find a specific pair in matrix
-    Rotate matrix by 90 degrees
-    Kth smallest element in a row-column wise sorted matrix
-    Common elements in all rows of a given matrix
+93. Can you implement a Binary search Algorithm without recursion?
+94. Difference between a stable and unstable sorting algorithm? (answer)
+95. What is Depth First Search Algorithm for a binary tree?
+96. How is an iterative quicksort algorithm implemented?
+97. How do you implement an insertion sort algorithm?
+98. How is a merge sort algorithm implemented?
+99. What is the difference between Comparison and Non-Comparison Sorting Algorithms? (answer)
+100. How do implement Sieve of Eratosthenes Algorithms for Prime Number?
+101. Positive or Negative number
+102. Even or Odd number
+103. Sum of First N Natural numbers
+104. Sum of N natural numbers
+105. Sum of numbers in a given range
+106. Greatest of two numbers
+107. Greatest of the Three numbers
+108. Leap year or not
+109. Prime number
+110. Prime number within a given range
+111. Sum of digits of a number
+112. Reverse of a number
+113. Palindrome number
+114. Armstrong number
+115. Armstrong number in a given range
+116. Fibonacci Series upto nth term
+117. Find the Nth Term of the Fibonacci Series
+118. Factorial of a number
+119. Power of a number
+120. Factor of a number
+121. Finding Prime Factors of a number
+122. Strong number
+123. Perfect number
+124. Perfect Square
+125. Automorphic number
+126. Harshad number
+127. Abundant number
+128. Friendly pair
+129. Highest Common Factor(HCF)
+130. Lowest Common Multiple (LCM)
+131. Greatest Common Divisor
+132. Binary to Decimal to conversion
+133. Octal to Decimal conversion
+134. Hexadecimal to Decimal conversion
+135. Decimal to Binary conversion
+136. Decimal to Octal Conversion
+137. Decimal to Hexadecimal Conversion
+138. Binary to Octal conversion
+139. Octal to Binary conversion
+140. Quadrants in which a given coordinate lies
+141. Permutations in which n people can occupy r seats in a classroom
+142. Maximum number of handshakes
+143. Addition of two fractions
+144. Replace all 0’s with 1 in a given integer
+145. Can a number be expressed as a sum of two prime numbers
+146. Count possible decoding of a given digit sequence
+147. Calculate the area of a circle
+148. Find the prime numbers between 1 to 100
+149. Calculate the number of digits in an integer
+150. Convert digit/number to words
+151. Counting number of days in a given month of a year
+152. Finding Number of times x digit occurs in a given input
+153. Finding number of integers which has exactly x divisors
+154. Finding Roots of a quadratic equation
+155. Power of a Number
+156. Prime Number
+157. Largest element in an array
+158. Smallest element in an array
+159. Reversing a Number
+160. HCF of two numbers
+161. LCM of two numbers
+162. Program to calculate length of the string using recursion
+163. Print All Permutations of a String
+164. Given an integer N the task is to print the F(N)th term.
+165. Given a list arr of N integers, print sums of all subsets in it
+166. Last non-zero digit in factorial
+167. Given a positive integer N, return the Nth row of pascal’s triangle
+168. Given an integer N representing the number of pairs of parentheses, the task is to generate all combinations of well-formed(balanced) parentheses
+169. Find the Factorial of a number using recursion
+170. Find all possible Palindromic partitions of the given String
+171. Find all the N bit binary numbers having more than or equal 1’s than 0’s
+172. Given a set of positive integers, find all its subsets
+173. Given a string s, remove all its adjacent duplicate characters recursively
+174. Find Largest element in an array
+175. Find Smallest Element in an Array
+176. Find the Smallest and largest element in an array
+177. Find Second Smallest Element in an Array
+178. Calculate the sum of elements in an array
+179. Reverse an Array
+180. Sort first half in ascending order and second half in descending
+181. Sort the elements of an array
+182. Finding the frequency of elements in an array
+183. Sorting elements of an array by frequency
+184. Finding the Longest Palindrome in an Array
+185. Counting Distinct Elements in an Array
+186. Finding Repeating elements in an Array
+187. Finding Non Repeating elements in an Array
+188. Removing Duplicate elements from an array
+189. Finding Minimum scalar product of two vectors
+190. Finding Maximum scalar product of two vectors in an array
+191. Counting the number of even and odd elements in an array
+192. Find all Symmetric pairs in an array
+193. Find maximum product sub-array in a given array
+194. Finding Arrays are disjoint or not
+195. Determine Array is a subset of another array or not
+196. Determine can all numbers of an array be made equal
+197. Finding Minimum sum of absolute difference of given array
+198. Sort an array according to the order defined by another array
+199. Replace each element of the array by its rank in the array
+200. Finding equilibrium index of an array
+201. Rotation of elements of array- left and right
+202. Block swap algorithm for array rotation
+203. Juggling algorithm for array rotation
+204. Finding Circular rotation of an array by K positions
+205. Balanced Parenthesis Problem
+206. Check whether a character is a vowel or consonant
+207. Check whether a character is a alphabet or not
+208. Find the ASCII value of a character
+209. Length of the string without using strlen() function
+210. Toggle each character in a string
+211. Count the number of vowels
+212. Remove the vowels from a String
+213. Check if the given string is Palindrome or not
+214. Print the given string in reverse order
+215. Remove all characters from string except alphabets
+216. Remove spaces from a string
+217. Remove brackets from an algebraic expression
+218. Count the sum of numbers in a string
+219. Capitalize the first and last character of each word of a string
+220. Calculate frequency of characters in a string
+221. Find non-repeating characters in a string
+222. Check if two strings are Anagram or not
+223. Replace a sub-string in a string
+224. Replacing a particular word with another word in a string
+225. Count common sub-sequence in two strings
+226. Check if two strings match where one string contains wildcard characters
+227. Print all permutations of a given string in lexicographically sorted order
+228. Given an array which consists of only 0, 1 and 2. Sort the array without using any algorithm
+229. Find the “Kth” max and min element of an array
+230. Move all the negative elements to one side of the array
+231. Find the Union and Intersection of the two sorted arrays.
+232. Find Largest sum contiguous Subarray
+233. Minimize the maximum difference between heights
+234. Minimum no. of Jumps to reach the end of an array
+235. Find duplicate in an array of N+1 Integers
+236. Merge 2 sorted arrays without using extra space.
+237. Kadane’s Algorithm
+238. Merge Intervals
+239. Count Inversion
+240. Best time to buy and Sell stock
+241. Find all pairs on integer array whose sum is equal to given number
+242. Find if there is any subarray with sum equal to 0
+243. Find factorial of a Large Number
+244. Find common elements In 3 sorted arrays
+245. Rearrange the array in alternating positive and negative items with O(1) extra space
+246. Given an array of size n and a number k, find all elements that appear more than ” n/k ” times.
+247. Maximum profit by buying and selling a share atmost twice
+248. Next Permutation
+249. Find longest consecutive subsequence
+250. Trapping Rain water problem
+251. Chocolate Distribution problem
 
 # DATA STRUCTURE AND ALGORITHMS
 
