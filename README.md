@@ -11,7 +11,7 @@ Hiring Coding Challenges
 6. How do you implement a bucket sort algorithm?
 7. How do you implement a counting sort algorithm?
 8. How do you remove duplicates from an array in place?
-9. How do you reverse an array in place in Java? [Solution in JS](./code/warmup/javascript/009.js)
+9. How do you reverse an array in place? [Solution in JS](./code/warmup/javascript/009.js)
 10. How are duplicates removed from an array without using any library?
 11. How is a radix sort algorithm implemented?
 12. How do you swap two numbers without using the third variable? [Solution in JS](./code/warmup/javascript/012.js)
@@ -25,10 +25,10 @@ Hiring Coding Challenges
 20. How do you find the largest and smallest number in an unsorted integer array? [Solution in JS](./code/warmup/javascript/020.js)
 21. How do you reverse a linked list in place? [Solution in JS](./code/warmup/javascript/021.js)
 22. How to add an element at the middle of the linked list? [Solution in JS](./code/warmup/javascript/022.js)
-23. How do you sort a linked list in JavaScript?
+23. How do you sort a linked listScript?
 24. How do you find all pairs of an integer array whose sum is equal to a given number? [Solution in JS](./code/warmup/javascript/024.js)
 25. How do you implement an insertion sort algorithm? [Solution in JS](./code/warmup/javascript/025.js)
-26. How are duplicates removed from a given array in JavaScript? [Solution in JS](./code/warmup/javascript/026.js)
+26. How are duplicates removed from a given arrayScript? [Solution in JS](./code/warmup/javascript/026.js)
 27. how to remove the duplicate character from String? [Solution in JS](./code/warmup/javascript/027.js)
 28. How to find the maximum occurring character in a given String? [Solution in JS](./code/warmup/javascript/028.js)
 29. How is an integer array sorted in place using the quicksort algorithm?
@@ -81,20 +81,20 @@ Hiring Coding Challenges
 76. How to check if a given number is a Palindrome?
 77. How to check if a given number is an Armstrong number?
 78. How to find all prime factors of a given number?
-79. How to check if a given number is positive or negative in Java?
+79. How to check if a given number is positive or negative?
 80. How to find the largest prime factor of a given integral number?
 81. How to print all prime numbers up to a given number?
 82. How to print Floyd’s triangle?
 83. How to print Pascal’s triangle?
 84. How to calculate the square root of a given number?
 85. How to check if the given number is a prime number?
-86. How to add two numbers without using the plus operator in Java?
+86. How to add two numbers without using the plus operator?
 87. How to check if a given number is even/odd without using the Arithmetic operator?
 88. How to print a given Pyramid structure?
-89. How to find the highest repeating world from a given file in Java?
-90. How to reverse a given Integer in Java?
-91. How to convert a decimal number to binary in Java?
-92. How to check if a given year is a leap year in Java?
+89. How to find the highest repeating world from a given file?
+90. How to reverse a given Integer?
+91. How to convert a decimal number to binary?
+92. How to check if a given year is a leap year?
 93. Can you implement a Binary search Algorithm without recursion?
 94. Difference between a stable and unstable sorting algorithm? (answer)
 95. What is Depth First Search Algorithm for a binary tree?
@@ -109,15 +109,15 @@ Hiring Coding Challenges
 104. Sum of N natural numbers [Solution in JS](./code/warmup/javascript/104.js)
 105. Sum of numbers in a given range [Solution in JS](./code/warmup/javascript/105.js)
 106. Greatest of two numbers [Solution in JS](./code/warmup/javascript/106.js)
-107. Greatest of the Three numbers
-108. Leap year or not
-109. Prime number
-110. Prime number within a given range
-111. Sum of digits of a number
-112. Reverse of a number
-113. Palindrome number
-114. Armstrong number
-115. Armstrong number in a given range
+107. Greatest of the Three numbers [Solution in JS](./code/warmup/javascript/107.js)
+108. Leap year or not [Solution in JS](./code/warmup/javascript/108.js)
+109. Prime number [Solution in JS](./code/warmup/javascript/109.js)
+110. Prime number within a given range [Solution in JS](./code/warmup/javascript/110.js)
+111. Sum of digits of a number [Solution in JS](./code/warmup/javascript/111.js)
+112. Reverse of a number [Solution in JS](./code/warmup/javascript/112.js)
+113. Palindrome number [Solution in JS](./code/warmup/javascript/113.js)
+114. Armstrong number [Solution in JS](./code/warmup/javascript/114.js)
+115. Armstrong number in a given range [Solution in JS](./code/warmup/javascript/115.js)
 116. Fibonacci Series upto nth term
 117. Find the Nth Term of the Fibonacci Series
 118. Factorial of a number
