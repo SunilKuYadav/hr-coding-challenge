@@ -111,7 +111,7 @@
 107. Greatest of the Three numbers [Solution in JS](./code/warmup/javascript/107.js)
 108. Leap year or not [Solution in JS](./code/warmup/javascript/108.js)
 109. Prime number [Solution in JS](./code/warmup/javascript/109.js)
-110. Prime number within a given range
+110. Prime number within a given range [Solution in JS](./code/warmup/javascript/110.js)
 111. Sum of digits of a number
 112. Reverse of a number
 113. Palindrome number
