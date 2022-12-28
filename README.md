@@ -115,7 +115,7 @@
 111. Sum of digits of a number [Solution in JS](./code/warmup/javascript/111.js)
 112. Reverse of a number [Solution in JS](./code/warmup/javascript/112.js)
 113. Palindrome number [Solution in JS](./code/warmup/javascript/113.js)
-114. Armstrong number
+114. Armstrong number [Solution in JS](./code/warmup/javascript/114.js)
 115. Armstrong number in a given range
 116. Fibonacci Series upto nth term
 117. Find the Nth Term of the Fibonacci Series
