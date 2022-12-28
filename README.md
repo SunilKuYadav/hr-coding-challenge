@@ -113,7 +113,7 @@
 109. Prime number [Solution in JS](./code/warmup/javascript/109.js)
 110. Prime number within a given range [Solution in JS](./code/warmup/javascript/110.js)
 111. Sum of digits of a number [Solution in JS](./code/warmup/javascript/111.js)
-112. Reverse of a number
+112. Reverse of a number [Solution in JS](./code/warmup/javascript/112.js)
 113. Palindrome number
 114. Armstrong number
 115. Armstrong number in a given range
