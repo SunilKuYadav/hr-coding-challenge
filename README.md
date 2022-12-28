@@ -108,7 +108,7 @@
 104. Sum of N natural numbers [Solution in JS](./code/warmup/javascript/104.js)
 105. Sum of numbers in a given range [Solution in JS](./code/warmup/javascript/105.js)
 106. Greatest of two numbers [Solution in JS](./code/warmup/javascript/106.js)
-107. Greatest of the Three numbers
+107. Greatest of the Three numbers [Solution in JS](./code/warmup/javascript/107.js)
 108. Leap year or not
 109. Prime number
 110. Prime number within a given range
