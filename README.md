@@ -112,7 +112,7 @@
 108. Leap year or not [Solution in JS](./code/warmup/javascript/108.js)
 109. Prime number [Solution in JS](./code/warmup/javascript/109.js)
 110. Prime number within a given range [Solution in JS](./code/warmup/javascript/110.js)
-111. Sum of digits of a number
+111. Sum of digits of a number [Solution in JS](./code/warmup/javascript/111.js)
 112. Reverse of a number
 113. Palindrome number
 114. Armstrong number
