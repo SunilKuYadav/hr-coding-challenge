@@ -1,0 +1,23 @@
+{
+  "name": "hr-coding-challenge",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SunilKuYadav/hr-coding-challenge.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SunilKuYadav/hr-coding-challenge/issues"
+  },
+  "homepage": "https://github.com/SunilKuYadav/hr-coding-challenge#readme",
+  "description": "",
+  "dependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
