@@ -1,10 +1,8 @@
 import { _02 } from './_02.js'
+import {stringify} from "../helperUtils";
 
 const inputs = _02.inputs
 const outputs = _02.outputs
-
-const makeDuplicate = input => JSON.parse(JSON.stringify(input))
-
 
 // Dum way - Time O(n^2) | Space O(1)
 const solution_01 = (arr, targetSum) => {
@@ -53,7 +51,7 @@ const solution_03 = (arr, targetSum) => {
 const runFile = (solution, input, output) => {
     const getOutput = solution(input[0], input[1])
 
-    const isPass = JSON.stringify(getOutput) === JSON.stringify(output)
+    const isPass = stringify(getOutput) === stringify(output)
     if (isPass) {
         console.log('Pass')
     } else {

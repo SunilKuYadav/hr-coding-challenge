@@ -1,13 +1,8 @@
 import { _01 } from "./_01.js";
-
-const BgRed = "\x1b[41m"
-const BgGreen = "\x1b[42m"
+import {makeDeepCopy, stringify} from "../helperUtils";
 
 const inputs = _01.inputs
 const outputs = _01.outputs
-
-const makeDuplicate = input => JSON.parse(JSON.stringify(input))
-
 
 // Using Inbuilt Methods - O(n) Time and O(1) Space
 const _01_solution = input => input.reverse()
@@ -57,7 +52,7 @@ const _01_solution_03 = input => {
 const runFile = (solution, input, output) => {
     const getOutput = solution(input)
 
-    const isPass = JSON.stringify(getOutput) === JSON.stringify(output)
+    const isPass = stringify(getOutput) === stringify(output)
         if(isPass) {
             console.log('Pass')
         } else {
@@ -71,6 +66,6 @@ const runFile = (solution, input, output) => {
 const solutions = [_01_solution, _01_solution_01, _01_solution_02, _01_solution_03]
 inputs.forEach((input, i) => {
     solutions.forEach((sol) => {
-        runFile(sol, makeDuplicate(input), makeDuplicate(outputs[i]))
+        runFile(sol, makeDeepCopy(input), makeDeepCopy(outputs[i]))
     })
 })
