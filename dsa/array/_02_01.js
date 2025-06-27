@@ -51,7 +51,7 @@ const solution_03 = (arr, targetSum) => {
 const runFile = (solution, input, output) => {
     const getOutput = solution(input[0], input[1])
 
-    const isPass = deepEqual(getOutput) === deepEqual(output)
+    const isPass = deepEqual(getOutput, outputs)
     if (isPass) {
         console.log('Pass')
     } else {

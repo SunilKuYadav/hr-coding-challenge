@@ -18,8 +18,6 @@ const deepEqual = (a, b) => {
     return false;
 }
 
-
-
 export {
     makeDeepCopy,
     deepEqual

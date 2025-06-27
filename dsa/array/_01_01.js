@@ -52,7 +52,7 @@ const _01_solution_03 = input => {
 const runFile = (solution, input, output) => {
     const getOutput = solution(input)
 
-    const isPass = deepEqual(getOutput) === deepEqual(output)
+    const isPass = deepEqual(getOutput, output)
         if(isPass) {
             console.log('Pass')
         } else {
