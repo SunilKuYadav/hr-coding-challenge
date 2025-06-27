@@ -1,9 +1,26 @@
 const makeDeepCopy = input => JSON.parse(JSON.stringify(input))
-const stringify = input => JSON.stringify(input)
+
+const deepEqual = (a, b) => {
+    if (a === b) return true;
+
+    if (Array.isArray(a) && Array.isArray(b)) {
+        if (a.length !== b.length) return false;
+        return a.every((val, i) => deepEqual(val, b[i]));
+    }
+
+    if (typeof a === 'object' && typeof b === 'object' && a && b) {
+        const keysA = Object.keys(a);
+        const keysB = Object.keys(b);
+        if (keysA.length !== keysB.length) return false;
+        return keysA.every(key => deepEqual(a[key], b[key]));
+    }
+
+    return false;
+}
 
 
 
 export {
     makeDeepCopy,
-    stringify
+    deepEqual
 }

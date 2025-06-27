@@ -1,5 +1,5 @@
 import { _01 } from "./_01.js";
-import {makeDeepCopy, stringify} from "../helperUtils.js";
+import {deepEqual, makeDeepCopy} from "../helperUtils.js";
 
 const inputs = _01.inputs
 const outputs = _01.outputs
@@ -52,7 +52,7 @@ const _01_solution_03 = input => {
 const runFile = (solution, input, output) => {
     const getOutput = solution(input)
 
-    const isPass = stringify(getOutput) === stringify(output)
+    const isPass = deepEqual(getOutput) === deepEqual(output)
         if(isPass) {
             console.log('Pass')
         } else {

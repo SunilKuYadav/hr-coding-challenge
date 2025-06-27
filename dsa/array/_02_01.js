@@ -1,5 +1,5 @@
 import { _02 } from './_02.js'
-import {stringify} from "../helperUtils.js";
+import {deepEqual} from "../helperUtils.js";
 
 const inputs = _02.inputs
 const outputs = _02.outputs
@@ -51,7 +51,7 @@ const solution_03 = (arr, targetSum) => {
 const runFile = (solution, input, output) => {
     const getOutput = solution(input[0], input[1])
 
-    const isPass = stringify(getOutput) === stringify(output)
+    const isPass = deepEqual(getOutput) === deepEqual(output)
     if (isPass) {
         console.log('Pass')
     } else {
