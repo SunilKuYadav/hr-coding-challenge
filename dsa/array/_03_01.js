@@ -61,8 +61,14 @@ const runFile = (solution, input, output) => {
 }
 
 const solutions = [solution_01, solution_02]
+
+const runTest = (solution = solutions) => {
 inputs.forEach((input, i) => {
-    solutions.forEach(solution => {
-        runFile(solution, makeDeepCopy(input), makeDeepCopy(outputs[i]))
+    solution.forEach(sol => {
+        runFile(sol, makeDeepCopy(input), makeDeepCopy(outputs[i]))
     })
 })
+}
+runTest()
+
+export const _03_02 = [runTest]
