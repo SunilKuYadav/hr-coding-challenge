@@ -46,6 +46,8 @@ const topic = [
 ]
 
 const alreadySolved = []
+let totalScore = 0
+let problemsAttempted = 0
 
 const startPractice = async (topic) => {
     let problem = []
@@ -60,14 +62,17 @@ const startPractice = async (topic) => {
     while (uniqueProblem !== ALREADY_SOLVED) {
         let idx = uniqueProblem.random;
         
+        console.log('\n==========================================');
         console.log('Problem => ', problem[idx][0].problem);
         console.log('Input => ', problem[idx][0].inputs[0]);
         console.log('Expected Output => ', problem[idx][0].outputs[0]);
         console.log('Input Format => ', problem[idx][0].inputFormat);
+        console.log('==========================================');
 
         let solutionPassed = false;
         let attempts = 0;
         const maxAttempts = 3;
+        let problemScore = 0;
 
         while (!solutionPassed && attempts < maxAttempts) {
             console.log(`\nAttempt ${attempts}/${maxAttempts}`);
@@ -82,15 +87,32 @@ const startPractice = async (topic) => {
                     const testResult = problem[idx][1].runTest(SOLUTIONS);
 
                     if (testResult.passed) {
-                        console.log('✅ All test cases passed!\n Moving to next question...\n');
+                        // Calculate score based on attempts
+                        if (attempts === 0) {
+                            problemScore = 15;
+                        } else if (attempts === 1) {
+                            problemScore = 10;
+                        } else if (attempts === 2) {
+                            problemScore = 5;
+                        } else {
+                            problemScore = 0;
+                        }
+                        
+                        totalScore += problemScore;
+                        problemsAttempted++;
+                        
+                        console.log(`✅ All test cases passed! Score: +${problemScore}\n Moving to next question...\n`);
+                        console.log('==========================================');
                         solutionPassed = true;
                     } else {
-                        console.log('\nProblem => ', problem[idx][0].problem);
+                        console.log('\n==========================================');
+                        console.log('Problem => ', problem[idx][0].problem);
                         console.log('❌ Test case failed!');
                         console.log(`Failed at test case ${testResult.testCaseIndex + 1}:`);
                         console.log(`Input: ${JSON.stringify(testResult.input)}`);
                         console.log(`Your Output: ${JSON.stringify(testResult.yourOutput)}`);
                         console.log(`Expected Output: ${JSON.stringify(testResult.expectedOutput)}`);
+                        console.log('==========================================');
                         attempts++;
                     }
                 } catch (err) {
@@ -99,9 +121,19 @@ const startPractice = async (topic) => {
                 }
             } else if (['skip', 's'].includes(userChoice)) {
                 console.log('Skipping this problem...\n');
+                console.log('==========================================');
                 break;
             } else if (['quit', 'q'].includes(userChoice)) {
+                console.log('==========================================');
                 console.log('Goodbye!');
+                console.log('\n📊 Final Score Summary:');
+                console.log(`Problems Attempted: ${problemsAttempted}`);
+                console.log(`Total Score: ${totalScore}`);
+                if (problemsAttempted > 0) {
+                    const averageScore = (totalScore / problemsAttempted).toFixed(1);
+                    console.log(`Average Score per Problem: ${averageScore}`);
+                }
+                console.log('==========================================');
                 rl.close();
                 return;
             }
@@ -109,12 +141,23 @@ const startPractice = async (topic) => {
 
         if (!solutionPassed) {
             console.log('\nMaximum attempts reached. Moving to next problem...\n');
+            console.log('==========================================');
+            problemsAttempted++; // Count as attempted even if not solved
         }
 
         uniqueProblem = generateUniqueNumber(totalProblem, alreadySolved)
     }
 
+    console.log('\n==========================================');
     console.log(ALREADY_SOLVED);
+    console.log('\n📊 Final Score Summary:');
+    console.log(`Problems Attempted: ${problemsAttempted}`);
+    console.log(`Total Score: ${totalScore}`);
+    if (problemsAttempted > 0) {
+        const averageScore = (totalScore / problemsAttempted).toFixed(1);
+        console.log(`Average Score per Problem: ${averageScore}`);
+    }
+    console.log('==========================================');
     rl.close();
 }
 
