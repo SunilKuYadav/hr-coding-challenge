@@ -6,22 +6,20 @@ import {_05} from "./_05.js";
 import {_06} from "./_06.js";
 import {_07} from "./_07.js";
 
-export const arrayProblem = [
-    _01,
-    _02,
-    _03,
-    _04,
-    _05,
-    _06,
-    _07
-]
+import {_01_01} from "./_01_01.js";
+import {_02_01} from "./_02_01.js";
+import {_03_01} from "./_03_01.js";
+import {_04_01} from "./_04_01.js";
+import {_07_01} from "./_07_01.js";
+import {_06_01} from "./_06_01.js";
+import {_05_01} from "./_05_01.js";
 
-export const array = [
-    _01,
-    _02,
-    _03,
-    _04,
-    _05,
-    _06,
-    _07
+export const arrayProblem = [
+    [_01, _01_01],
+    [_02, _02_01],
+    [_03, _03_01],
+    [_04, _04_01],
+    [_05, _05_01],
+    [_06, _06_01],
+    [_07, _07_01]
 ]

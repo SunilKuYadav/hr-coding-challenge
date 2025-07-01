@@ -49,30 +49,42 @@ const _01_solution_03 = input => {
 }
 
 
-const runFile = (solution, input, output) => {
+const runFile = (solution, input, output, testCaseIndex) => {
     const getOutput = solution(input)
 
     const isPass = deepEqual(getOutput, output)
-        if(isPass) {
-            console.log('Pass')
-        } else {
-            console.log('Input', input)
-            console.log('Your Output', getOutput)
-            console.log('Expected Output', output)
-            console.error( 'Fail')
+    if(isPass) {
+        console.log('Pass')
+        return { passed: true }
+    } else {
+        console.log('Input', input)
+        console.log('Your Output', getOutput)
+        console.log('Expected Output', output)
+        console.error('Fail')
+        return { 
+            passed: false, 
+            testCaseIndex,
+            input, 
+            yourOutput: getOutput, 
+            expectedOutput: output 
         }
+    }
 }
 
 const solutions = [_01_solution, _01_solution_01, _01_solution_02, _01_solution_03]
 
 const runTest = (solution = solutions) => {
-    inputs.forEach((input, i) => {
-        solution.forEach((sol) => {
-            runFile(sol, makeDeepCopy(input), makeDeepCopy(outputs[i]))
-        })
-    })
+    for (let i = 0; i < inputs.length; i++) {
+        for (let j = 0; j < solution.length; j++) {
+            const result = runFile(solution[j], makeDeepCopy(inputs[i]), makeDeepCopy(outputs[i]), i)
+            if (!result.passed) {
+                return result
+            }
+        }
+    }
+    return { passed: true }
 }
 
-runTest()
+// runTest()
 
-export const _01_01 = [runTest]
+export const _01_01 = {runTest}
