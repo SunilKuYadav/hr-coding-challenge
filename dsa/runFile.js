@@ -109,9 +109,9 @@ const startPractice = async (topic) => {
                         console.log('Problem => ', problem[idx][0].problem);
                         console.log('❌ Test case failed!');
                         console.log(`Failed at test case ${testResult.testCaseIndex + 1}:`);
-                        console.log(`Input: ${JSON.stringify(testResult.input)}`);
-                        console.log(`Your Output: ${JSON.stringify(testResult.yourOutput)}`);
-                        console.log(`Expected Output: ${JSON.stringify(testResult.expectedOutput)}`);
+                        console.log('Input: ', testResult.input);
+                        console.log('Your Output: ', testResult.yourOutput);
+                        console.log('Expected Output: ', testResult.expectedOutput);
                         console.log('==========================================');
                         attempts++;
                     }

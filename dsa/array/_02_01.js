@@ -56,10 +56,6 @@ const runFile = (solution, input, output, testCaseIndex) => {
         console.log('Pass')
         return { passed: true }
     } else {
-        console.log('Input', input)
-        console.log('Your Output', getOutput)
-        console.log('Expected Output', output)
-        console.error('Fail')
         return { 
             passed: false, 
             testCaseIndex,
