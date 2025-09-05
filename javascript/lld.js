@@ -76,4 +76,4 @@
 // Example: Car
 // Public: startEngine, shiftGear, accelerate, brake, stopEngine
 // Private: color, brand, model, speed
-// Protected: currentGear
+// it's focus on data security 
