@@ -199,3 +199,7 @@
 // A class should have only one reason to change
 // A class should do only one thing
 // eg. TV remote
+
+// O: Open close principle
+// A class should be open for extension but close for modification
+

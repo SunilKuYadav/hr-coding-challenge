@@ -9,9 +9,8 @@ class Product {
 }
 
 class ShoppingCart {
-
   constructor() {
-    this._product =[]
+    this._product = [];
   }
 
   addProduct(product) {
@@ -44,16 +43,17 @@ class ShoppingCart {
   // saveToDataBase() {
   //   console.log("Saving shopping cart to database....");
   // }
-  // delegate saveToDataBase (composition)
-  saveToDataBase() {
-    new SaveToDataBase(this).saveToDataBase();
+
+  // delegate saving (composition)
+  save(strategy) {
+    strategy.save(this);
   }
 }
 
 class ShoppingCartInvoice extends ShoppingCart {
   constructor(cart) {
-    super()
-    this.cart = cart
+    super();
+    this.cart = cart;
   }
   printInvoice() {
     console.log("Shopping Card List: ");
@@ -63,16 +63,64 @@ class ShoppingCartInvoice extends ShoppingCart {
   }
 }
 
-class SaveToDataBase extends ShoppingCart {
-  saveToDataBase() {
-    console.log("Saving shopping cart to database....");
+// class SaveToDataBase extends ShoppingCart {
+//   constructor(){
+//     super()
+//   }
+//   save() {
+//     console.log("Saving shopping cart to database....");
+//   }
+
+//   // saveToSQLDatabase() {
+//   //   console.log("Saving shopping cart to SQL database....");
+//   // }
+//   // saveToMongoDatabase() {
+//   //   console.log("Saving shopping cart to Mongo database....");
+//   // }
+//   // saveToFile() {
+//   //   console.log("Saving shopping cart to file....");
+//   // }
+// }
+
+
+// ✅ Base saving strategy (OCP)
+class SaveStrategy {
+  save(cart) {
+    throw new Error("save() must be implemented");
   }
 }
+
+// ✅ Extensions (OCP)
+class SaveToSQLDatabase extends SaveStrategy {
+  save(cart) {
+    console.log("Saving shopping cart to SQL database....");
+  }
+}
+
+class SaveToMongoDatabase extends SaveStrategy {
+  save(cart) {
+    console.log("Saving shopping cart to Mongo database....");
+  }
+}
+
+class SaveToFile extends SaveStrategy {
+  save(cart) {
+    console.log("Saving shopping cart to File....");
+  }
+}
+
 
 const cart = new ShoppingCart();
 
 cart.addProduct(new Product("laptop", 3000));
 cart.addProduct(new Product("Mouse", 99));
 
+const total = cart.calculateTotal()
 cart.printInvoice();
-cart.saveToDataBase();
+const sqlDB = new SaveToSQLDatabase()
+const mongoDB = new SaveToMongoDatabase()
+const saveToFile = new SaveToFile()
+cart.save(sqlDB);
+cart.save(mongoDB);
+cart.save(saveToFile);
+console.log(total)
