@@ -186,3 +186,16 @@
 // alt: if else
 // option: if
 // loop: for
+
+
+// SOLID Design principle
+
+// issue if not followed Design principle
+// Maintainability
+// Readability
+// BUGS
+
+// S: Single Responsibility Principle
+// A class should have only one reason to change
+// A class should do only one thing
+// eg. TV remote
