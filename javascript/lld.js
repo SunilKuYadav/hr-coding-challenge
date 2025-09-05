@@ -99,3 +99,13 @@
 // Child class: SportsCar
 
 // Polymorphism:
+// 1. Method Overriding - Dynamic Polymorphism
+// 2. Method Overloading - Static Polymorphism
+
+// Example:
+// Parent class: Car
+// Child class: SportsCar
+
+// Method Overriding:
+// 1. Override the method of the parent class
+// 2. Example: Car
