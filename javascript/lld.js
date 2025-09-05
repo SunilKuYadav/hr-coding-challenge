@@ -77,3 +77,25 @@
 // Public: startEngine, shiftGear, accelerate, brake, stopEngine
 // Private: color, brand, model, speed
 // it's focus on data security 
+
+
+// Inheritance:
+// 1. Inherit the properties and behavior of a parent class
+// 2. Example: Car
+
+// Example:
+// Parent class: Car
+// Child class: SportsCar
+
+// Types of Inheritance
+// 1. Single Inheritance
+// 2. Multi Level Inheritance
+// 3. Multiple Inheritance
+// 4. Hierarchical Inheritance
+// 5. Hybrid Inheritance
+
+// Example:
+// Parent class: Car
+// Child class: SportsCar
+
+// Polymorphism:
