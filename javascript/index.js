@@ -96,13 +96,13 @@ function showThis() {
 showThis();
 
 // Example 3: Method in an Object
-const obj = {
+const obj2 = {
   name: "Alice",
   greet: function () {
     console.log(this.name); // 'this' refers to obj, so this.name is "Alice"
   },
 };
-obj.greet();
+obj2.greet();
 
 // Example 4: Arrow Function
 const arrowFunc = () => {
@@ -651,6 +651,10 @@ const runExampleOfEventLoop = () => {
     .then(() => console.log("3"))
     .then(() => console.log("4"));
 
+  queueMicrotask(() => {
+    console.log("queueMicrotask");
+  });
+
   fetch("https://jsonplaceholder.typicode.com/todos/1")
     .then((response) => response.json())
     .then((json) => console.log(json));
@@ -665,20 +669,37 @@ runExampleOfEventLoop();
 // Script end
 // 1
 // 3
+// queueMicrotask
 // 2
 // 4
-// { userId: 1, id: 1, title: 'delectus aut autem', completed: false }
 // setTimeout
 // setImmediate
+// { userId: 1, id: 1, title: 'delectus aut autem', completed: false }
 
-// Explanation:
-// 1. "Script start" and "Script end" are logged first because they are synchronous operations.
-// 2. The setTimeout callback is scheduled to run after 0 milliseconds, but it goes to the Event Queue.
-// 3. The setImmediate callback is also scheduled to run, but it goes to the Event Queue as well.
-// 4. The Promises are resolved immediately, and their .then() callbacks are scheduled to run in the Microtask Queue.
-// 5. The fetch request is initiated, and its .then() callbacks are also scheduled to run in the Microtask Queue once the response is received.
-// 6. The Event Loop checks the Call Stack, finds it empty, and first processes the Microtask Queue, logging "1", "3", "2", and "4" in that order.
-// 7. Once the Microtask Queue is empty, the Event Loop processes the Event Queue, logging the result of the fetch request and then "setTimeout" and "setImmediate".
+// 1.	Synchronous code runs first
+// 	•	"Script start" and "Script end" are logged immediately because they are synchronous.
+// 2.	Timers and immediates scheduled
+// 	•	setTimeout(..., 0) is registered and placed in the Timers Queue.
+// 	•	setImmediate(...) is registered and placed in the Check Queue (Node.js specific).
+// 3.	Promises and microtasks scheduled
+// 	•	Promise.resolve().then(...) callbacks are added to the Microtask Queue.
+// 	•	Both promise chains schedule their first .then() callbacks (1 and 3).
+// •	queueMicrotask(...) is also explicitly added to the Microtask Queue.
+// 4.	Event loop finishes synchronous code, processes Microtask Queue
+// 	•	Microtasks always run before moving to the next macrotask (timers, I/O, immediates).
+// 	•	Execution order inside microtasks:
+//     •	"1" (first .then of first promise)
+// •	"3" (first .then of second promise)
+// •	"queueMicrotask" (runs next, because microtasks are FIFO in registration order)
+// •	"2" (second .then chained from the first promise)
+// •	"4" (second .then chained from the second promise)
+// 5.	Event loop moves to Macrotask phase
+// 	•	"setTimeout" runs first (Timers Queue).
+// •	"setImmediate" runs next (Check Queue in Node.js).
+// 6.	Fetch completes asynchronously
+// 	•	The fetch request returns a response later.
+// 	•	Its .then() callback is scheduled as a microtask once the data is ready.
+// 	•	Finally, the JSON object is logged:
 
 // Note: The order of "setTimeout" and "setImmediate" may vary depending on the environment (Node.js or browser) and timing.
 
@@ -961,4 +982,173 @@ const handlePromises = async () => {
   console.log("End");
 };
 
-handlePromises().catch(err => console.log(err))
+handlePromises().catch((err) => console.log(err));
+
+// This key word
+// This key word
+("use strict");
+
+// this in global space
+console.log(this);
+// globalObject: window, global (non-strict mode)
+// undefined (strict mode)
+
+// this inside function
+function a() {
+  // the value will be dependent on strict and non-strict mode
+  console.log(this);
+  // globalObject: window, global (strict mode)
+  // undefined (non-strict mode)
+}
+// This in non-strict mode - this substitution
+// If the value of this keyword is undefined or null
+// this keyword will be replaced with globalObject only in strict mode
+
+// The vale of this keyword is depend how a function called
+a(); // undefined
+// window.a() // window
+
+// this inside a object's method
+// when a function is part of object is know as method
+const person = {
+  age: 5,
+  printAge: function () {
+    // printAge is method of object person
+    console.log(this.age); // this => person | this.age => person.age
+    // value of this will be person (object) where this method is called
+  },
+};
+person.printAge();
+
+// call, apply and bind method (sharing method)
+const person2 = {
+  age: 15,
+};
+// person2.printAge()
+person.printAge.call(person2); // this = person2 | function borrowing
+
+const printDetails = function (homeTown, state) {
+  console.log(
+    this.firstName + " " + this.lastName + " " + homeTown + " " + state
+  );
+};
+const personOne = {
+  firstName: "Allen",
+  lastName: "Dan",
+};
+const personTwo = {
+  firstName: "Julia",
+  lastName: "Pan",
+};
+
+// Function borrowing
+printDetails.call(personOne, "UK", "India");
+printDetails.call(personTwo, "UK", "India");
+
+printDetails.apply(personOne, ["UK", "India"]);
+printDetails.apply(personTwo, ["UK", "India"]);
+
+// Binding
+const printDetail = printDetails.bind(personOne, "UK", "India");
+printDetail();
+
+// this inside arrow function
+// don't have their own this binding - but value will be enclosing lexical context
+
+const animal = {
+  name: "Tiger",
+  type: "wild",
+  printName: () => {
+    console.log(this.name); // undefined
+    // this will behave like this where animal (obj) present
+  },
+  printType: function () {
+    // enclosing lexical context
+    const print = () => {
+      console.log(this.type); // wild
+      // this will behave like this where printType (method) present
+    };
+    print();
+  },
+};
+animal.printName();
+animal.printType();
+// this inside DOM Element => reference to HTMLElement
+// this inside class, constructor
+
+// Data type conversion
+const type = [
+  33,
+  "33",
+  Number("33"),
+  Number("77aa"), // NaN as number
+  Number(null), // 0
+  Number(undefined), // NaN as number
+  Number(true), // 1
+  {},
+];
+
+// type.forEach(data => {
+//   console.log(data + " => " + typeof data)
+// })
+// Explicit => String(5)
+// Implicit => 5 + ''
+
+// Coercion
+const typeCoercion = [
+  "5" + 9,
+  true + false,
+  12 / "6",
+  "num" + 4 + 5,
+  4 + 5 + "num", // 9num
+  [1] > null, // [1] => Boolean(String('[1]))
+  "true" == true, // 'true' => Number(true)
+];
+
+// typeCoercion.forEach((data) => {
+//   console.log(data + " => " + typeof data);
+// });
+
+// console.log({} + []); // "[object Object]"  <-- wrapped in () forces object literal
+// console.log([] + {}); // "[object Object]"
+// console.log({} + []); // 0
+
+const obj1 = {
+  toString() {
+    return "hello";
+  },
+  valueOf() {
+    return 42;
+  },
+};
+
+// console.log(String(obj1)); // "hello" (uses toString)
+// console.log(Number(obj1)); // 42 (uses valueOf)
+// console.log(obj1 + "");    // "42" + "" → "42"
+
+const obj = {
+  [Symbol.toPrimitive](hint) {
+    if (hint === "string") return "I am string";
+    if (hint === "number") return 99;
+    return "default";
+  },
+};
+
+console.log(String(obj)); // "I am string"
+console.log(Number(obj)); // 99
+console.log(obj + ""); // "default"
+
+// •	toString() → for string contexts.
+// •	valueOf() → for number/primitive contexts.
+// •	Symbol.toPrimitive → ultimate control over both.
+
+
+const a = {name: 'a'}
+const b = {name: 'b'}
+const obj4 = {}
+obj4[a] = 'hello'
+obj4[b] = 'hello 2'
+
+console.log(obj) // { '[object Object]': 'hello 2' }
+console.log(obj[a]) // hello 2
+console.log(obj[b]) // hello 2

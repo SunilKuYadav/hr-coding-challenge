@@ -1,9 +1,7 @@
 // What is LLD?
 
 // for solving isolated problem we use DSA
-
-// LLD mainly focused on there three 
-
+// LLD mainly focused on there three
 // 1. Scalability
 // 2. Maintainability
 // 3. Re-useability
@@ -203,3 +201,5 @@
 // O: Open close principle
 // A class should be open for extension but close for modification
 
+// Liskov Substitution Principle (LSP)
+// child class should behave like it's parent
