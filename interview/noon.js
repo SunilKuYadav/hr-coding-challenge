@@ -82,7 +82,7 @@ Promise.resolve()
 // its chained .then(() => console.log("I")) will schedule I as another microtask, but only after F runs.
 
 // Order of microtasks:
-//     1.	C (first .then) → logs "C"
+// 1.	C (first .then) → logs "C"
 // → then schedules "H" for later microtask.
 // 2.	F (first .then) → logs "F"
 // → then schedules "I" for later microtask.

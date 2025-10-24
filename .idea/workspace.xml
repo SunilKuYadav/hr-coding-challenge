@@ -5,11 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0111f7bb-63f7-4fdf-b114-dc9ba0a257c1" name="Changes" comment="REFACTOR: array problem run from base fuc">
-      <change afterPath="$PROJECT_DIR$/interview/noon.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/interview/tern-group.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/javascript/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/javascript/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/javascript/lld.js" beforeDir="false" afterPath="$PROJECT_DIR$/javascript/lld.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/javascript/opps.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interview/liveSpaceL1.js" beforeDir="false" afterPath="$PROJECT_DIR$/interview/liveSpaceL1.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interview/noon.js" beforeDir="false" afterPath="$PROJECT_DIR$/interview/noon.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,12 +19,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;SunilKuYadav&quot;
-  }
-}</component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {}
+}]]></component>
   <component name="GithubProjectSettings">
     <option name="branchProtectionPatterns">
       <list>
@@ -107,6 +104,7 @@
       <workItem from="1757316916885" duration="38000" />
       <workItem from="1757317389193" duration="37000" />
       <workItem from="1757326789977" duration="1978000" />
+      <workItem from="1758566655385" duration="795000" />
     </task>
     <task id="LOCAL-00001" summary="FEAT: Two Number Sum">
       <option name="closed" value="true" />

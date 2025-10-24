@@ -19,7 +19,6 @@
 
 // function myFilter (arr, cb) {
 //   let outputArr = []
-  
 //   for (let i = 0; i < arr.length; i++){
 //     if (cb(arr[i], i)) {
 //       outputArr.push(arr[i])
