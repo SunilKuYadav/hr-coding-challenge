@@ -118,50 +118,29 @@ Your workspace is a regular folder. You can edit files directly in any text edit
 ### Adding a New Topic
 
 1. Navigate to the Dashboard
-2. (Future: use the Create button) — for now, create the folder manually:
+2. Click the **+ Create** button in the top right
+3. Select the **Topic** tab
+4. Fill in the title, category, difficulty, and optional tags
+5. Click **Create Topic** — you'll be redirected to the new topic page
+
+Alternatively, create the folder manually:
    ```bash
    mkdir -p ~/knowledge-workspace/notes/dsa/graph-traversal
    ```
-3. Add a `topic.json`:
-   ```json
-   {
-     "id": "graph-traversal",
-     "title": "Graph Traversal",
-     "category": "dsa",
-     "difficulty": "medium",
-     "status": "not-started",
-     "confidence": 1,
-     "tags": ["graphs", "bfs", "dfs"],
-     "createdAt": "2024-07-01T00:00:00Z",
-     "updatedAt": "2024-07-01T00:00:00Z"
-   }
-   ```
-4. Add empty Markdown files: `overview.md`, `notes.md`, `patterns.md`, `mistakes.md`
-5. Refresh the app — your topic appears on the Dashboard
+Then add a `topic.json` and empty Markdown files (`overview.md`, `notes.md`, `patterns.md`, `mistakes.md`).
 
 ### Adding a New Problem
 
-1. Create the folder:
+1. Click the **+ Create** button on the Dashboard
+2. Select the **Problem** tab
+3. Fill in the title, platform, difficulty, and optional companies/patterns/URL
+4. Click **Create Problem** — you'll be redirected to the new problem page
+
+Alternatively, create the folder manually:
    ```bash
    mkdir -p ~/knowledge-workspace/problems/leetcode/valid-parentheses
    ```
-2. Add `problem.json`:
-   ```json
-   {
-     "id": "valid-parentheses",
-     "title": "Valid Parentheses",
-     "platform": "leetcode",
-     "difficulty": "easy",
-     "companies": ["Amazon", "Meta"],
-     "patterns": ["stack"],
-     "status": "not-started",
-     "favorite": false,
-     "url": "https://leetcode.com/problems/valid-parentheses/",
-     "createdAt": "2024-07-01T00:00:00Z",
-     "updatedAt": "2024-07-01T00:00:00Z"
-   }
-   ```
-3. Add `notes.md` and `solution.md`
+Then add a `problem.json`, `notes.md`, and `solution.md`.
 
 ### Review Workflow
 

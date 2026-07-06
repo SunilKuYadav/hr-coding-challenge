@@ -45,13 +45,21 @@ export default async function Dashboard() {
 
   return (
     <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 p-6 md:p-10">
-      <header className="mb-8">
-        <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-100">
-          Knowledge Workspace
-        </h1>
-        <p className="mt-1 text-zinc-600 dark:text-zinc-400">
-          Your learning dashboard
-        </p>
+      <header className="mb-8 flex items-start justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-zinc-900 dark:text-zinc-100">
+            Knowledge Workspace
+          </h1>
+          <p className="mt-1 text-zinc-600 dark:text-zinc-400">
+            Your learning dashboard
+          </p>
+        </div>
+        <Link
+          href="/create"
+          className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        >
+          + Create
+        </Link>
       </header>
 
       {/* Summary Stats */}
