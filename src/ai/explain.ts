@@ -10,35 +10,29 @@
  */
 
 import type { Problem } from '@/types';
-import type { OllamaClient } from './client';
+import type { AIClient } from './client';
+import { buildExplainPrompt, buildSimilarProblemsPrompt, buildInterviewPrepPrompt } from './prompts';
 
 /**
  * Streams an explanation of a concept given surrounding context.
  *
  * @param concept - The concept to explain
  * @param context - Additional context around the concept
- * @param client - The OllamaClient instance to use
+ * @param client - The AIClient instance to use
  * @yields String chunks of the explanation
  */
 export async function* explainConcept(
   concept: string,
   context: string,
-  client: OllamaClient
+  client: AIClient
 ): AsyncGenerator<string> {
   const available = await client.isAvailable();
   if (!available) {
-    yield 'AI is currently unavailable. Please ensure Ollama is running at localhost:11434.';
+    yield 'AI is currently unavailable. Please check your AI service configuration.';
     return;
   }
 
-  const prompt = `Explain the following concept clearly and concisely for someone preparing for technical interviews. Include examples where helpful. Format in Markdown.
-
-Concept: ${concept}
-
-Context:
-${context}
-
-Explanation:`;
+  const prompt = buildExplainPrompt(concept, context);
 
   try {
     for await (const chunk of client.generate(prompt)) {
@@ -53,12 +47,12 @@ Explanation:`;
  * Suggests similar problems based on the given problem's metadata.
  *
  * @param problem - The Problem to find similar items for
- * @param client - The OllamaClient instance to use
+ * @param client - The AIClient instance to use
  * @returns Array of problem name suggestions, or empty array on failure
  */
 export async function suggestSimilarProblems(
   problem: Problem,
-  client: OllamaClient
+  client: AIClient
 ): Promise<string[]> {
   try {
     const available = await client.isAvailable();
@@ -66,18 +60,13 @@ export async function suggestSimilarProblems(
       return [];
     }
 
-    const prompt = `Given the following coding problem metadata, suggest 5 similar problems that would help practice the same patterns and concepts.
-
-Problem: ${problem.title}
-Platform: ${problem.platform}
-Difficulty: ${problem.difficulty}
-Patterns: ${problem.patterns.join(', ')}
-Companies: ${problem.companies.join(', ')}
-
-Return ONLY a valid JSON array of problem name strings (no additional text):
-["Problem Name 1", "Problem Name 2", "Problem Name 3", "Problem Name 4", "Problem Name 5"]
-
-JSON:`;
+    const prompt = buildSimilarProblemsPrompt(
+      problem.title,
+      problem.platform,
+      problem.difficulty,
+      problem.patterns.join(', '),
+      problem.companies.join(', ')
+    );
 
     let fullResponse = '';
     for await (const chunk of client.generate(prompt)) {
@@ -94,34 +83,25 @@ JSON:`;
  * Streams interview preparation content for the given problem.
  *
  * @param problem - The Problem to prepare for
- * @param client - The OllamaClient instance to use
+ * @param client - The AIClient instance to use
  * @yields String chunks of the interview prep content
  */
 export async function* generateInterviewPrep(
   problem: Problem,
-  client: OllamaClient
+  client: AIClient
 ): AsyncGenerator<string> {
   const available = await client.isAvailable();
   if (!available) {
-    yield 'AI is currently unavailable. Please ensure Ollama is running at localhost:11434.';
+    yield 'AI is currently unavailable. Please check your AI service configuration.';
     return;
   }
 
-  const prompt = `Generate interview preparation material for the following coding problem. Include:
-1. Key questions an interviewer might ask
-2. Hints for approaching the problem
-3. Common follow-up questions
-4. Edge cases to consider
-5. Time and space complexity discussion points
-
-Format in Markdown with clear sections.
-
-Problem: ${problem.title}
-Platform: ${problem.platform}
-Difficulty: ${problem.difficulty}
-Patterns: ${problem.patterns.join(', ')}
-
-Interview Prep:`;
+  const prompt = buildInterviewPrepPrompt(
+    problem.title,
+    problem.platform,
+    problem.difficulty,
+    problem.patterns.join(', ')
+  );
 
   try {
     for await (const chunk of client.generate(prompt)) {

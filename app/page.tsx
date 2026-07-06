@@ -65,9 +65,9 @@ export default async function Dashboard() {
       {/* Summary Stats */}
       <section aria-label="Summary statistics" className="mb-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          <StatCard label="Total Topics" value={topics.length} />
-          <StatCard label="Total Problems" value={problems.length} />
-          <StatCard label="Due for Review" value={dueItems.length} />
+          <StatCard label="Total Topics" value={topics.length} href="/topics" />
+          <StatCard label="Total Problems" value={problems.length} href="/problems" />
+          <StatCard label="Due for Review" value={dueItems.length} href="/revision" />
           <StatCard label="Reviewed Today" value={reviewedToday} />
         </div>
       </section>
@@ -199,15 +199,32 @@ export default async function Dashboard() {
   );
 }
 
-function StatCard({ label, value }: { label: string; value: number }) {
-  return (
-    <div className="rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5">
+function StatCard({ label, value, href }: { label: string; value: number; href?: string }) {
+  const content = (
+    <>
       <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
         {label}
       </p>
       <p className="mt-1 text-2xl font-bold text-zinc-900 dark:text-zinc-100">
         {value}
       </p>
+    </>
+  );
+
+  if (href) {
+    return (
+      <Link
+        href={href}
+        className="rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5 hover:border-blue-300 dark:hover:border-blue-700 hover:shadow-sm transition-all"
+      >
+        {content}
+      </Link>
+    );
+  }
+
+  return (
+    <div className="rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5">
+      {content}
     </div>
   );
 }

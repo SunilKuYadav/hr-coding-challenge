@@ -1,5 +1,5 @@
 /**
- * AI-powered flashcard generation using Ollama.
+ * AI-powered flashcard generation.
  *
  * Generates flashcards from provided content, parsing the model's
  * JSON response and returning validated Flashcard objects.
@@ -9,18 +9,19 @@
  */
 
 import type { Flashcard } from '@/types';
-import type { OllamaClient } from './client';
+import type { AIClient } from './client';
+import { buildFlashcardsPrompt } from './prompts';
 
 /**
  * Generates flashcards from the given content.
  *
  * @param content - The text content to generate flashcards from
- * @param client - The OllamaClient instance to use
+ * @param client - The AIClient instance to use
  * @returns Array of Flashcard objects, or empty array on failure
  */
 export async function generateFlashcards(
   content: string,
-  client: OllamaClient
+  client: AIClient
 ): Promise<Flashcard[]> {
   try {
     const available = await client.isAvailable();
@@ -28,21 +29,7 @@ export async function generateFlashcards(
       return [];
     }
 
-    const prompt = `Generate 5-10 flashcards based on the following technical content. Each flashcard should have a question/concept on the front and a concise answer/explanation on the back.
-
-Return ONLY a valid JSON array with this exact structure (no additional text):
-[
-  {
-    "front": "What is the time complexity of binary search?",
-    "back": "O(log n) because the search space is halved with each comparison.",
-    "tags": ["binary-search", "complexity"]
-  }
-]
-
-Content:
-${content}
-
-JSON:`;
+    const prompt = buildFlashcardsPrompt(content);
 
     let fullResponse = '';
     for await (const chunk of client.generate(prompt)) {

@@ -1,22 +1,23 @@
 /**
  * Reactive AI availability state with periodic health checks.
  *
- * Maintains a singleton-like module state tracking whether Ollama is
- * reachable. Polls every 30 seconds to detect availability changes.
+ * Maintains a singleton-like module state tracking whether the AI service
+ * is reachable. Polls every 30 seconds to detect availability changes.
  * Runs server-side only.
  *
  * Requirements: 6.1, 6.2, 6.4
  */
 
-import { createOllamaClient } from './client';
+import { createAIClient } from './client';
 
 const HEALTH_CHECK_INTERVAL_MS = 30_000;
-const DEFAULT_BASE_URL = 'http://localhost:11434';
+const DEFAULT_BASE_URL = process.env.OPENAI_BASE_URL || 'http://localhost:11434/v1';
+const API_KEY = process.env.OPENAI_API_KEY || '';
 
 let available = false;
 let healthCheckTimer: ReturnType<typeof setInterval> | null = null;
 
-const client = createOllamaClient(DEFAULT_BASE_URL);
+const client = createAIClient({ baseUrl: DEFAULT_BASE_URL, apiKey: API_KEY });
 
 /**
  * Returns the current AI availability status.

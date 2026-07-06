@@ -6,35 +6,12 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { createOllamaClient } from '@/ai';
+import { createAIClient } from '@/ai';
+import { buildTopicParsePrompt, buildProblemParsePrompt } from '@/src/ai/prompts';
 
-const DEFAULT_OLLAMA_URL = 'http://localhost:11434';
-
-const TOPIC_PROMPT = `You are a helpful assistant that extracts structured data from text descriptions.
-Given the following text, extract topic information and return ONLY valid JSON (no markdown, no explanation) with these fields:
-- title (string, required): The topic name
-- category (string, one of: dsa, system-design, database, networking, os, oop)
-- difficulty (string, one of: easy, medium, hard)
-- tags (array of strings): relevant tags
-
-If a field cannot be determined, omit it from the response.
-Return ONLY the JSON object, nothing else.
-
-Text: `;
-
-const PROBLEM_PROMPT = `You are a helpful assistant that extracts structured data from text descriptions.
-Given the following text, extract coding problem information and return ONLY valid JSON (no markdown, no explanation) with these fields:
-- title (string, required): The problem name
-- platform (string, one of: leetcode, codeforces, gfg)
-- difficulty (string, one of: easy, medium, hard)
-- companies (array of strings): companies that ask this problem
-- patterns (array of strings): algorithmic patterns used
-- url (string): problem URL if mentioned
-
-If a field cannot be determined, omit it from the response.
-Return ONLY the JSON object, nothing else.
-
-Text: `;
+const DEFAULT_BASE_URL = process.env.OPENAI_BASE_URL || 'http://localhost:11434/v1';
+const API_KEY = process.env.OPENAI_API_KEY || '';
+const MODEL = process.env.OPENAI_MODEL || 'gpt-3.5-turbo';
 
 export async function POST(request: NextRequest) {
   try {
@@ -48,19 +25,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const client = createOllamaClient(DEFAULT_OLLAMA_URL);
+    const client = createAIClient({ baseUrl: DEFAULT_BASE_URL, apiKey: API_KEY, defaultModel: MODEL });
 
     const isAvailable = await client.isAvailable();
     if (!isAvailable) {
       return NextResponse.json(
-        { error: 'AI service is not available. Make sure Ollama is running.' },
+        { error: 'AI service is not available. Please check your AI service configuration.' },
         { status: 503 }
       );
     }
 
     const prompt = formType === 'topic'
-      ? TOPIC_PROMPT + text
-      : PROBLEM_PROMPT + text;
+      ? buildTopicParsePrompt(text)
+      : buildProblemParsePrompt(text);
 
     // Collect all tokens from the generator
     let result = '';

@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { generateFlashcards } from './generateFlashcards';
-import type { OllamaClient } from './client';
+import type { AIClient } from './client';
 
-function createMockClient(responses: string[], available = true): OllamaClient {
+function createMockClient(responses: string[], available = true): AIClient {
   return {
     async isAvailable() {
       return available;
@@ -76,7 +76,7 @@ describe('generateFlashcards', () => {
   });
 
   it('returns empty array when generate throws', async () => {
-    const client: OllamaClient = {
+    const client: AIClient = {
       async isAvailable() { return true; },
       async *generate() { throw new Error('fail'); },
     };

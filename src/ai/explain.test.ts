@@ -1,9 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { explainConcept, suggestSimilarProblems, generateInterviewPrep } from './explain';
-import type { OllamaClient } from './client';
+import type { AIClient } from './client';
 import type { Problem } from '@/types';
 
-function createMockClient(responses: string[], available = true): OllamaClient {
+function createMockClient(responses: string[], available = true): AIClient {
   return {
     async isAvailable() {
       return available;

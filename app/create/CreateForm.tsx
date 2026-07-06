@@ -4,24 +4,10 @@ import { useActionState, useState } from 'react';
 import Link from 'next/link';
 import { createTopic, createProblem } from './actions';
 import type { CreateTopicState, CreateProblemState } from './actions';
+import { parseFormWithAI } from './lib';
+import type { TopicFormData, ProblemFormData, FormType } from './lib';
 
 type Tab = 'topic' | 'problem';
-
-interface TopicFormData {
-  title?: string;
-  category?: string;
-  difficulty?: string;
-  tags?: string[];
-}
-
-interface ProblemFormData {
-  title?: string;
-  platform?: string;
-  difficulty?: string;
-  companies?: string[];
-  patterns?: string[];
-  url?: string;
-}
 
 export default function CreateForm() {
   const [activeTab, setActiveTab] = useState<Tab>('topic');
@@ -83,7 +69,7 @@ export default function CreateForm() {
 
 /* ─── AI Assist Component ─── */
 
-function AIAssist({ formType, onResult }: { formType: 'topic' | 'problem'; onResult: (data: TopicFormData | ProblemFormData) => void }) {
+function AIAssist({ formType, onResult }: { formType: FormType; onResult: (data: TopicFormData | ProblemFormData) => void }) {
   const [text, setText] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -94,23 +80,11 @@ function AIAssist({ formType, onResult }: { formType: 'topic' | 'problem'; onRes
     setError(null);
 
     try {
-      const response = await fetch('/api/ai/parse-form', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: text.trim(), formType }),
-      });
-
-      const json = await response.json();
-
-      if (!response.ok) {
-        setError(json.error || 'Failed to parse text');
-        return;
-      }
-
-      onResult(json.data);
+      const data = await parseFormWithAI(text, formType);
+      onResult(data);
       setText('');
-    } catch {
-      setError('Failed to connect to AI service');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to connect to AI service');
     } finally {
       setLoading(false);
     }

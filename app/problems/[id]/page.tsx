@@ -6,6 +6,7 @@ import { getWorkspacePath } from '@/src/lib/constants';
 import { FileProblemRepository } from '@/src/filesystem/FileProblemRepository';
 import { ProblemService } from '@/src/services/ProblemService';
 import AISidebar from '@/src/components/AISidebar';
+import RateConfidenceButton from '@/src/components/RateConfidenceButton';
 
 export default async function ProblemDetailPage({
   params,
@@ -53,8 +54,8 @@ export default async function ProblemDetailPage({
   }[problem.status];
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 flex">
-      <div className="flex-1 p-6 md:p-10 overflow-y-auto">
+    <div className="h-screen bg-zinc-50 dark:bg-zinc-950 flex overflow-hidden">
+      <div className="flex-1 overflow-y-auto p-6 md:p-10">
       {/* Header */}
       <header className="mb-8">
         <div className="flex items-start justify-between gap-4">
@@ -172,7 +173,14 @@ export default async function ProblemDetailPage({
 
       {/* Revision Section */}
       <section aria-label="Revision" className="mb-8">
-        <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-3">Revision</h2>
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">Revision</h2>
+          <RateConfidenceButton
+            itemId={id}
+            itemType="problem"
+            currentConfidence={revision.confidence}
+          />
+        </div>
         <div className="rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5">
           {/* Revision Metadata */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
@@ -286,7 +294,7 @@ export default async function ProblemDetailPage({
       </div>
 
       {/* AI Sidebar */}
-      <AISidebar context="problem" itemId={id} />
+      <AISidebar context="problem" itemId={id} itemTitle={problem.title} />
     </div>
   );
 }

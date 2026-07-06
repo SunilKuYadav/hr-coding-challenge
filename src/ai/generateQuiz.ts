@@ -1,5 +1,5 @@
 /**
- * AI-powered quiz generation using Ollama.
+ * AI-powered quiz generation.
  *
  * Generates multiple-choice quiz questions from provided content.
  * Parses the model's JSON response and validates the structure.
@@ -8,7 +8,8 @@
  * Requirements: 5.2
  */
 
-import type { OllamaClient } from './client';
+import type { AIClient } from './client';
+import { buildQuizPrompt } from './prompts';
 
 export interface QuizQuestion {
   question: string;
@@ -21,12 +22,12 @@ export interface QuizQuestion {
  * Generates quiz questions from the given content.
  *
  * @param content - The text content to generate quiz questions from
- * @param client - The OllamaClient instance to use
+ * @param client - The AIClient instance to use
  * @returns Array of QuizQuestion objects, or empty array on failure
  */
 export async function generateQuiz(
   content: string,
-  client: OllamaClient
+  client: AIClient
 ): Promise<QuizQuestion[]> {
   try {
     const available = await client.isAvailable();
@@ -34,22 +35,7 @@ export async function generateQuiz(
       return [];
     }
 
-    const prompt = `Generate 5 multiple-choice quiz questions based on the following technical content. Each question should test understanding of key concepts.
-
-Return ONLY a valid JSON array with this exact structure (no additional text):
-[
-  {
-    "question": "What is...",
-    "options": ["Option A", "Option B", "Option C", "Option D"],
-    "correctIndex": 0,
-    "explanation": "The correct answer is A because..."
-  }
-]
-
-Content:
-${content}
-
-JSON:`;
+    const prompt = buildQuizPrompt(content);
 
     let fullResponse = '';
     for await (const chunk of client.generate(prompt)) {

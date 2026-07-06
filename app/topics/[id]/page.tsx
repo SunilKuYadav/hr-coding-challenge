@@ -5,6 +5,7 @@ import { FileTopicRepository } from '@/src/filesystem/FileTopicRepository';
 import { TopicService } from '@/src/services/TopicService';
 import TopicTabs from './TopicTabs';
 import AISidebar from '@/src/components/AISidebar';
+import RateConfidenceButton from '@/src/components/RateConfidenceButton';
 
 export default async function TopicDetailPage({
   params,
@@ -43,8 +44,8 @@ export default async function TopicDetailPage({
   };
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950 flex">
-      <div className="flex-1 p-6 md:p-10 overflow-y-auto">
+    <div className="h-screen bg-zinc-50 dark:bg-zinc-950 flex overflow-hidden">
+      <div className="flex-1 overflow-y-auto p-6 md:p-10">
       {/* Back navigation */}
       <div className="mb-6">
         <Link
@@ -86,12 +87,7 @@ export default async function TopicDetailPage({
               </div>
             )}
           </div>
-          <Link
-            href={`/edit/notes/${topic.category}/${topic.id}/overview.md`}
-            className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors"
-          >
-            Edit
-          </Link>
+
         </div>
       </header>
 
@@ -102,6 +98,7 @@ export default async function TopicDetailPage({
           notes={notes}
           patterns={patterns}
           mistakes={mistakes}
+          editBasePath={`/edit/notes/${topic.category}/${topic.id}`}
         />
       </section>
 
@@ -157,9 +154,16 @@ export default async function TopicDetailPage({
 
       {/* Revision History */}
       <section className="mb-10" aria-label="Revision history">
-        <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">
-          Revision History
-        </h2>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">
+            Revision History
+          </h2>
+          <RateConfidenceButton
+            itemId={id}
+            itemType="topic"
+            currentConfidence={revision.confidence}
+          />
+        </div>
         <div className="rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-6">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
             <div>
@@ -228,7 +232,7 @@ export default async function TopicDetailPage({
       </div>
 
       {/* AI Sidebar */}
-      <AISidebar context="topic" itemId={id} />
+      <AISidebar context="topic" itemId={id} itemTitle={topic.title} />
     </div>
   );
 }

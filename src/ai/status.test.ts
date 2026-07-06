@@ -17,7 +17,7 @@ describe('AI status module', () => {
     expect(getAIStatus()).toBe(false);
   });
 
-  it('startHealthCheck sets available to true when Ollama responds', async () => {
+  it('startHealthCheck sets available to true when AI service responds', async () => {
     (fetch as ReturnType<typeof vi.fn>).mockResolvedValue({ ok: true });
 
     await startHealthCheck();
@@ -25,7 +25,7 @@ describe('AI status module', () => {
     expect(getAIStatus()).toBe(true);
   });
 
-  it('startHealthCheck sets available to false when Ollama is unreachable', async () => {
+  it('startHealthCheck sets available to false when AI service is unreachable', async () => {
     (fetch as ReturnType<typeof vi.fn>).mockRejectedValue(new Error('Connection refused'));
 
     await startHealthCheck();

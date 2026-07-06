@@ -9,11 +9,11 @@ export type FilesystemError = {
 };
 
 /**
- * Error type for AI service operations via Ollama.
+ * Error type for AI service operations.
  * Covers connectivity and generation failures.
  */
 export type AIError = {
-  code: 'OLLAMA_UNREACHABLE' | 'GENERATION_FAILED' | 'TIMEOUT';
+  code: 'AI_UNREACHABLE' | 'GENERATION_FAILED' | 'TIMEOUT';
   message: string;
 };
 

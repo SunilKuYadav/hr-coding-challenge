@@ -5,6 +5,50 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { saveFile } from '@/app/edit/actions';
 
+/* ─── AI Text Generation Hook ─── */
+function useAIGenerate() {
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  const generate = useCallback(
+    async (
+      prompt: string,
+      context: string,
+      onChunk: (chunk: string) => void
+    ) => {
+      setIsGenerating(true);
+      try {
+        const response = await fetch('/api/ai/generate-text', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ prompt, context }),
+        });
+
+        if (!response.ok || !response.body) {
+          const err = await response.json().catch(() => ({}));
+          throw new Error(
+            (err as { error?: string }).error || 'Failed to generate text'
+          );
+        }
+
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          const text = decoder.decode(value, { stream: true });
+          onChunk(text);
+        }
+      } finally {
+        setIsGenerating(false);
+      }
+    },
+    []
+  );
+
+  return { generate, isGenerating };
+}
+
 interface MarkdownEditorProps {
   content: string;
   filePath: string;
@@ -28,6 +72,35 @@ export default function MarkdownEditor({ content, filePath }: MarkdownEditorProp
   const [saveState, setSaveState] = useState<'idle' | 'saving' | 'saved'>('idle');
   const [isPending, startTransition] = useTransition();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  // AI helper state
+  const [showAIPrompt, setShowAIPrompt] = useState(false);
+  const [aiPrompt, setAIPrompt] = useState('');
+  const [aiError, setAIError] = useState<string | null>(null);
+  const { generate, isGenerating } = useAIGenerate();
+
+  const handleAIGenerate = useCallback(async () => {
+    if (!aiPrompt.trim() || isGenerating) return;
+    setAIError(null);
+
+    const textarea = textareaRef.current;
+    const insertPos = textarea ? textarea.selectionStart : markdown.length;
+
+    // We'll collect chunks and append to markdown at the cursor position
+    let generated = '';
+    try {
+      await generate(aiPrompt.trim(), markdown, (chunk) => {
+        generated += chunk;
+        const newContent =
+          markdown.slice(0, insertPos) + generated + markdown.slice(insertPos);
+        setMarkdown(newContent);
+      });
+      setAIPrompt('');
+      setShowAIPrompt(false);
+    } catch (err) {
+      setAIError(err instanceof Error ? err.message : 'Generation failed');
+    }
+  }, [aiPrompt, isGenerating, generate, markdown]);
 
   const insertFormatting = useCallback((action: FormatAction) => {
     const textarea = textareaRef.current;
@@ -129,6 +202,18 @@ export default function MarkdownEditor({ content, filePath }: MarkdownEditorProp
         <ToolbarDivider />
         <ToolbarButton label="Link" onClick={() => insertFormatting('link')} />
         <ToolbarButton label="Image" onClick={() => insertFormatting('image')} />
+        <ToolbarDivider />
+        <button
+          type="button"
+          onClick={() => setShowAIPrompt((v) => !v)}
+          className="flex items-center gap-1 px-2 py-1 text-xs rounded bg-indigo-50 dark:bg-indigo-950 hover:bg-indigo-100 dark:hover:bg-indigo-900 text-indigo-700 dark:text-indigo-300 transition-colors"
+          aria-label="AI generate text"
+        >
+          <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456Z" />
+          </svg>
+          AI
+        </button>
 
         <div className="ml-auto flex items-center gap-3">
           {saveState === 'saving' && (
@@ -146,6 +231,59 @@ export default function MarkdownEditor({ content, filePath }: MarkdownEditorProp
           </button>
         </div>
       </div>
+
+      {/* AI Prompt Panel */}
+      {showAIPrompt && (
+        <div className="px-4 py-3 border-b border-indigo-200 dark:border-indigo-800 bg-indigo-50 dark:bg-indigo-950/30">
+          <div className="flex items-center gap-2 mb-1.5">
+            <svg className="w-4 h-4 text-indigo-600 dark:text-indigo-400" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456Z" />
+            </svg>
+            <span className="text-sm font-medium text-indigo-700 dark:text-indigo-300">
+              AI Text Generator
+            </span>
+          </div>
+          <p className="text-xs text-indigo-600 dark:text-indigo-400 mb-2">
+            Describe what you want to write and AI will generate markdown at the cursor position.
+          </p>
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={aiPrompt}
+              onChange={(e) => setAIPrompt(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  handleAIGenerate();
+                }
+                if (e.key === 'Escape') {
+                  setShowAIPrompt(false);
+                }
+              }}
+              placeholder="e.g. Write a summary of binary search trees..."
+              disabled={isGenerating}
+              className="flex-1 px-3 py-1.5 text-sm rounded-md border border-indigo-300 dark:border-indigo-700 bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:opacity-50"
+              autoFocus
+            />
+            <button
+              onClick={handleAIGenerate}
+              disabled={isGenerating || !aiPrompt.trim()}
+              className="px-4 py-1.5 text-sm font-medium rounded-md bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              {isGenerating ? 'Generating...' : 'Generate'}
+            </button>
+            <button
+              onClick={() => setShowAIPrompt(false)}
+              className="px-3 py-1.5 text-sm rounded-md border border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+            >
+              Cancel
+            </button>
+          </div>
+          {aiError && (
+            <p className="mt-2 text-xs text-red-600 dark:text-red-400">{aiError}</p>
+          )}
+        </div>
+      )}
 
       {/* Editor and Preview Panes */}
       <div className="flex flex-1 min-h-0">

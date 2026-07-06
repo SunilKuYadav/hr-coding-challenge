@@ -3,7 +3,7 @@
 /**
  * AI availability context provider.
  *
- * Checks Ollama connectivity on mount and polls every 30 seconds
+ * Checks AI service connectivity on mount and polls every 30 seconds
  * to detect availability changes. Exposes status via useAIStatus() hook.
  *
  * Requirements: 6.1, 6.2, 6.4

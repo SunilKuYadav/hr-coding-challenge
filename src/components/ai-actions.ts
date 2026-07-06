@@ -27,7 +27,7 @@ export async function saveAIContent(
   type: 'topic' | 'problem',
   content: string,
   filename: string
-): Promise<{ success: boolean; error?: string }> {
+): Promise<{ success: boolean; error?: string; path?: string }> {
   try {
     const workspacePath = getWorkspacePath();
     let relativeFilePath: string;
@@ -61,7 +61,7 @@ export async function saveAIContent(
     const commitMessage = generateCommitMessage('create', relativeFilePath);
     await gitService.commitFile(relativeFilePath, commitMessage);
 
-    return { success: true };
+    return { success: true, path: relativeFilePath };
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unknown error';
     return { success: false, error: message };
