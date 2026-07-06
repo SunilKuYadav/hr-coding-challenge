@@ -13,9 +13,10 @@ export const WORKSPACE_STRUCTURE = {
 
 /**
  * Default workspace path used when the WORKSPACE_PATH environment variable is not set.
+ * Resolves to ./knowledge-workspace inside the project directory.
  */
-const DEFAULT_WORKSPACE_PATH = path.join(
-  process.env.HOME || process.env.USERPROFILE || '.',
+const DEFAULT_WORKSPACE_PATH = path.resolve(
+  process.cwd(),
   'knowledge-workspace'
 );
 

@@ -13,7 +13,7 @@ import { mkdir, writeFile } from 'fs/promises';
 
 const WORKSPACE_PATH =
   process.env.WORKSPACE_PATH ||
-  path.join(process.env.HOME || process.env.USERPROFILE || '.', 'knowledge-workspace');
+  path.resolve(__dirname, '..', 'knowledge-workspace');
 
 async function ensureDir(dir: string) {
   await mkdir(dir, { recursive: true });
