@@ -3,6 +3,7 @@ import { getWorkspacePath } from '@/src/lib/constants';
 import { FileProblemRepository } from '@/src/filesystem/FileProblemRepository';
 import { ProblemService } from '@/src/services/ProblemService';
 import ProblemsListClient from './ProblemsListClient';
+import CodingInterviewButton from '@/src/components/CodingInterviewButton';
 
 export default async function ProblemsPage() {
   const workspacePath = getWorkspacePath();
@@ -28,12 +29,15 @@ export default async function ProblemsPage() {
             {problems.length} problem{problems.length !== 1 ? 's' : ''} in your workspace
           </p>
         </div>
-        <Link
-          href="/create"
-          className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-        >
-          + Create
-        </Link>
+        <div className="flex items-center gap-3">
+          <CodingInterviewButton source="practice" />
+          <Link
+            href="/create"
+            className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          >
+            + Create
+          </Link>
+        </div>
       </header>
 
       <ProblemsListClient problems={problems} />

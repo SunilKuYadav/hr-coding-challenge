@@ -8,6 +8,7 @@ import { ProblemService } from '@/src/services/ProblemService';
 import { RevisionService } from '@/src/services/RevisionService';
 import { sortByPriority } from '@/src/revision/spaced';
 import type { RevisionData } from '@/src/types/Revision';
+import CodingInterviewButton from '@/src/components/CodingInterviewButton';
 
 export default async function Dashboard() {
   const workspacePath = getWorkspacePath();
@@ -147,7 +148,20 @@ export default async function Dashboard() {
         <h2 className="text-xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4">
           Browse
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {/* Coding Interview */}
+          <div className="rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5">
+            <h3 className="text-sm font-medium text-zinc-500 dark:text-zinc-400 mb-3">
+              Coding Interview
+            </h3>
+            <p className="text-sm text-zinc-600 dark:text-zinc-400 mb-4">
+              Practice with AI-generated coding problems in a realistic interview setting.
+            </p>
+            <div className="space-y-2">
+              <CodingInterviewButton source="practice" variant="button" />
+            </div>
+          </div>
+
           {/* Recent Topics */}
           <div className="rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5">
             <h3 className="text-sm font-medium text-zinc-500 dark:text-zinc-400 mb-3">

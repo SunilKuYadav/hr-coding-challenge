@@ -7,6 +7,7 @@ import { ProblemService } from '@/src/services/ProblemService';
 import AISidebar from '@/src/components/AISidebar';
 import RateConfidenceButton from '@/src/components/RateConfidenceButton';
 import SelfTestButton from '@/src/components/SelfTestButton';
+import CodingInterviewButton from '@/src/components/CodingInterviewButton';
 
 export default async function ProblemDetailPage({
   params,
@@ -81,6 +82,14 @@ export default async function ProblemDetailPage({
             </div>
           </div>
           <div className="flex items-center gap-3 shrink-0">
+            <CodingInterviewButton
+              source="problem"
+              id={id}
+              title={problem.title}
+              category={problem.patterns[0] || ''}
+              tags={problem.patterns}
+              difficulty={problem.difficulty}
+            />
             <SelfTestButton
               itemId={id}
               itemType="problem"
