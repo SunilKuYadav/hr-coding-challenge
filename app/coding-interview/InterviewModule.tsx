@@ -312,7 +312,7 @@ export function InterviewModule(props: InterviewModuleProps) {
                 value={code}
                 onChange={setCode}
                 language={language}
-                boilerplate={problem?.boilerplate ?? ''}
+                boilerplate={problem?.starterCode ?? ''}
               />
             </div>
 

@@ -67,6 +67,54 @@ export interface EdgeCase {
   expectedOutput: string;
 }
 
+export interface ProvidedCode {
+  language: string;
+  imports: string[];
+  types: string[];
+  helpers: string[];
+  testHarness: string;
+}
+
+export interface FunctionParameter {
+  name: string;
+  type: string;
+}
+
+export interface FunctionSignature {
+  name: string;
+  parameters: FunctionParameter[];
+  returnType: string;
+}
+
+export interface DataStructureDefinition {
+  name: string;
+  definition: string;
+}
+
+export interface Parser {
+  inputType: string;
+  helper: string;
+}
+
+export interface ExecutionConfig {
+  entry: string;
+  language: string;
+  timeout: number;
+  memory: number;
+}
+
+export interface InterviewMetadata {
+  expectedPatterns: string[];
+  followUpTopics: string[];
+  commonMistakes: string[];
+  optimizationQuestions: string[];
+}
+
+export interface Hint {
+  level: number;
+  content: string;
+}
+
 export interface GeneratedProblem {
   title: string;
   difficulty: 'easy' | 'medium' | 'hard';
@@ -82,7 +130,15 @@ export interface GeneratedProblem {
   expectedTimeComplexity: string; // Big-O
   expectedSpaceComplexity: string; // Big-O
   companyTags: string[]; // 1-5
-  boilerplate: string;
+  providedCode: ProvidedCode;
+  starterCode: string;
+  functionSignature: FunctionSignature;
+  dataStructures: DataStructureDefinition[];
+  parser: Parser;
+  validator: string;
+  execution: ExecutionConfig;
+  interview: InterviewMetadata;
+  hints: Hint[];
 }
 
 /* ─── Evaluation Model ───────────────────────────────────── */

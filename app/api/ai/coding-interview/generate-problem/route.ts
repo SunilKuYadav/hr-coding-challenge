@@ -10,6 +10,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createAIClient } from '@/ai';
 import { AI_TIMEOUT } from '@/app/coding-interview/lib/constants';
+import { validateGeneratedProblem } from '@/app/coding-interview/lib/validateGeneratedProblem';
 import type {
   InterviewSource,
   InterviewContext,
@@ -103,7 +104,53 @@ Generate a complete coding interview problem and respond with ONLY a valid JSON 
   "expectedTimeComplexity": "string - Big-O notation e.g., O(n log n)",
   "expectedSpaceComplexity": "string - Big-O notation e.g., O(n)",
   "companyTags": ["string array - 1 to 5 companies that ask similar questions"],
-  "boilerplate": "string - starter code in ${language} with function signature and TODO comment"
+  "providedCode": {
+    "language": "string - the programming language (${language})",
+    "imports": ["string array - import statements needed for the solution"],
+    "types": ["string array - type/interface definitions (e.g., TreeNode, ListNode) relevant to the category"],
+    "helpers": ["string array - helper function definitions (e.g., buildBinaryTree, buildLinkedList)"],
+    "testHarness": "string - test harness code that invokes the solution and validates output"
+  },
+  "starterCode": "string - editable solution template in ${language} with function signature and TODO comment",
+  "functionSignature": {
+    "name": "string - the solution function name",
+    "parameters": [
+      {
+        "name": "string - parameter name",
+        "type": "string - parameter type"
+      }
+    ],
+    "returnType": "string - return type of the function"
+  },
+  "dataStructures": [
+    {
+      "name": "string - data structure name (e.g., TreeNode, ListNode, GraphNode)",
+      "definition": "string - full type/class definition code"
+    }
+  ],
+  "parser": {
+    "inputType": "string - input data format (e.g., array, matrix, adjacencyList, string)",
+    "helper": "string - parser helper function name (e.g., buildBinaryTree, buildLinkedList, parseMatrix)"
+  },
+  "validator": "string - comparison strategy for checking outputs (e.g., deepEqual, treeEqual, linkedListEqual, unorderedEqual)",
+  "execution": {
+    "entry": "string - the entry function name to invoke",
+    "language": "string - execution language (${language})",
+    "timeout": "number - execution timeout in milliseconds (e.g., 5000)",
+    "memory": "number - memory limit in MB (e.g., 256)"
+  },
+  "interview": {
+    "expectedPatterns": ["string array - algorithmic patterns expected in the solution (e.g., two-pointer, BFS, dynamic programming)"],
+    "followUpTopics": ["string array - topics for follow-up discussion after the candidate solves the problem"],
+    "commonMistakes": ["string array - common mistakes candidates make on this problem"],
+    "optimizationQuestions": ["string array - questions to ask about optimization opportunities"]
+  },
+  "hints": [
+    {
+      "level": "number - hint level (1 = subtle nudge, 2 = algorithmic direction, 3 = near-solution)",
+      "content": "string - the hint text"
+    }
+  ]
 }
 
 Requirements:
@@ -113,65 +160,21 @@ Requirements:
 - hiddenTestCases: at least 5 items covering various scenarios
 - companyTags: between 1 and 5 items
 - expectedTimeComplexity and expectedSpaceComplexity must be valid Big-O notation
-- boilerplate must be valid ${language} code with a clear function signature
+- starterCode: must be valid ${language} code with a clear function signature and TODO comment for the candidate to fill in
+- providedCode: must include category-appropriate types, imports, helpers, and test harness code; types array should include relevant data structure definitions for the problem category (e.g., TreeNode for Trees, ListNode for Linked Lists)
+- functionSignature: must accurately reflect the expected solution function with correct parameter names, types, and return type
+- dataStructures: must include category-aware data structure definitions relevant to the problem (e.g., TreeNode for Trees, ListNode for Linked Lists, GraphNode for Graphs); may be empty array for primitive-only problems (e.g., simple Arrays or Strings)
+- parser: inputType should match the primary input data format; helper should name the deserialization function needed (e.g., "buildBinaryTree" for tree problems)
+- validator: must specify the appropriate comparison strategy based on the problem's output type
+- execution: timeout should be between 1000-30000 ms; memory should be between 64-512 MB; entry must match functionSignature.name; language must be "${language}"
+- interview: each array (expectedPatterns, followUpTopics, commonMistakes, optimizationQuestions) must have at least 1 item
+- hints: at least 1 hint object; each hint must have a numeric level (1-3) and non-empty content string; hints should progress from subtle to more revealing
 - The problem must have at least one valid solution implementable within 45 minutes
 
 Respond with ONLY the JSON object.`;
 }
 
-function validateGeneratedProblem(data: unknown): data is GeneratedProblem {
-  if (!data || typeof data !== 'object') return false;
 
-  const problem = data as Record<string, unknown>;
-
-  // Check required string fields
-  const requiredStrings = [
-    'title', 'difficulty', 'category', 'statement',
-    'inputFormat', 'outputFormat', 'expectedTimeComplexity',
-    'expectedSpaceComplexity', 'boilerplate',
-  ];
-  for (const field of requiredStrings) {
-    if (typeof problem[field] !== 'string' || (problem[field] as string).length === 0) {
-      return false;
-    }
-  }
-
-  // Validate difficulty
-  if (!['easy', 'medium', 'hard'].includes(problem.difficulty as string)) {
-    return false;
-  }
-
-  // Validate arrays with minimum counts
-  if (!Array.isArray(problem.tags) || problem.tags.length < 2) return false;
-  if (!Array.isArray(problem.samples) || problem.samples.length < 2) return false;
-  if (!Array.isArray(problem.edgeCases) || problem.edgeCases.length < 2) return false;
-  if (!Array.isArray(problem.hiddenTestCases) || problem.hiddenTestCases.length < 5) return false;
-  if (!Array.isArray(problem.companyTags) || problem.companyTags.length < 1 || problem.companyTags.length > 5) return false;
-  if (!Array.isArray(problem.constraints)) return false;
-
-  // Validate sample structure
-  for (const sample of problem.samples as Array<Record<string, unknown>>) {
-    if (typeof sample.input !== 'string' || typeof sample.output !== 'string' || typeof sample.explanation !== 'string') {
-      return false;
-    }
-  }
-
-  // Validate edge case structure
-  for (const edgeCase of problem.edgeCases as Array<Record<string, unknown>>) {
-    if (typeof edgeCase.description !== 'string' || typeof edgeCase.input !== 'string' || typeof edgeCase.expectedOutput !== 'string') {
-      return false;
-    }
-  }
-
-  // Validate hidden test case structure
-  for (const testCase of problem.hiddenTestCases as Array<Record<string, unknown>>) {
-    if (!('input' in testCase) || !('expectedOutput' in testCase)) {
-      return false;
-    }
-  }
-
-  return true;
-}
 
 export async function POST(request: NextRequest) {
   try {

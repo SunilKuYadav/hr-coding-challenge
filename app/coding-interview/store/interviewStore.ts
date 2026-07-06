@@ -135,8 +135,8 @@ export const useInterviewStore = create<InterviewStore>()(
     setProblem: (problem: GeneratedProblem) =>
       set({
         problem,
-        boilerplate: problem.boilerplate,
-        code: problem.boilerplate,
+        boilerplate: problem.starterCode,
+        code: problem.starterCode,
       }),
 
     tickTimer: () =>
