@@ -14,25 +14,47 @@ import {
   PROBLEM_PROMPT_HELPERS,
 } from './constants';
 import { detectGeneralQuestion } from './utils';
+import { useAIChatStore } from './chatStore';
 
 interface UseAISidebarParams {
   context: 'topic' | 'problem';
   itemId: string;
+  itemTitle?: string;
   available?: boolean;
 }
 
-export function useAISidebar({ context, itemId, available: availableProp }: UseAISidebarParams) {
+export function useAISidebar({ context, itemId, itemTitle, available: availableProp }: UseAISidebarParams) {
   const { available: contextAvailable } = useAIStatus();
   const available = availableProp ?? contextAvailable;
 
   const [collapsed, setCollapsed] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [output, setOutput] = useState('');
-  const [completed, setCompleted] = useState(false);
   const [activeAction, setActiveAction] = useState<ActionConfig | null>(null);
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const [customPrompt, setCustomPrompt] = useState('');
   const [showHelpers, setShowHelpers] = useState(false);
+
+  // Chat store
+  const {
+    getOrCreateSession,
+    addMessage,
+    updateLastAssistantMessage,
+    clearSession,
+    getSessionSummary,
+    sessions,
+    activeSessionIds,
+  } = useAIChatStore();
+
+  // Get or create session for this item
+  const sessionKey = `${context}:${itemId}`;
+  const sessionId = activeSessionIds[sessionKey];
+  const session = sessionId ? sessions[sessionId] : null;
+  const messages = session?.messages ?? [];
+
+  // Initialize session on mount
+  useEffect(() => {
+    getOrCreateSession(context, itemId, itemTitle || itemId);
+  }, [context, itemId, itemTitle, getOrCreateSession]);
 
   const actions = context === 'topic' ? TOPIC_ACTIONS : PROBLEM_ACTIONS;
   const promptHelpers = context === 'topic' ? TOPIC_PROMPT_HELPERS : PROBLEM_PROMPT_HELPERS;
@@ -40,16 +62,16 @@ export function useAISidebar({ context, itemId, available: availableProp }: UseA
   const router = useRouter();
 
   // Resize state
-  const [width, setWidth] = useState(320);
+  const [width, setWidth] = useState(380);
   const isResizing = useRef(false);
   const startX = useRef(0);
-  const startWidth = useRef(320);
+  const startWidth = useRef(380);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (!isResizing.current) return;
       const diff = startX.current - e.clientX;
-      const newWidth = Math.min(Math.max(startWidth.current + diff, 240), 700);
+      const newWidth = Math.min(Math.max(startWidth.current + diff, 280), 700);
       setWidth(newWidth);
     };
 
@@ -75,12 +97,32 @@ export function useAISidebar({ context, itemId, available: availableProp }: UseA
     document.body.style.userSelect = 'none';
   }, [width]);
 
+  /** Build a context-aware prompt that includes conversation summary */
+  const buildContextualPrompt = useCallback((userPrompt: string, isGeneral: boolean): string => {
+    if (!sessionId) return userPrompt;
+    const summary = getSessionSummary(sessionId);
+    if (!summary) return userPrompt;
+
+    return [
+      'Below is a summary of the conversation so far for context:',
+      '---',
+      summary,
+      '---',
+      '',
+      'Now answer the following follow-up question based on the above context:',
+      userPrompt,
+    ].join('\n');
+  }, [sessionId, getSessionSummary]);
+
   const handleAction = useCallback(async (actionConfig: ActionConfig) => {
     setLoading(true);
-    setOutput('');
-    setCompleted(false);
     setActiveAction(actionConfig);
     setSaveStatus('idle');
+
+    // Add user message to chat
+    const currentSession = getOrCreateSession(context, itemId, itemTitle || itemId);
+    addMessage(currentSession.id, 'user', `[Action] ${actionConfig.label}`);
+    addMessage(currentSession.id, 'assistant', '');
 
     try {
       const requestBody = { action: actionConfig.action, itemId, context };
@@ -94,8 +136,8 @@ export function useAISidebar({ context, itemId, available: availableProp }: UseA
 
       if (!response.ok) {
         logError(JSON.stringify(requestBody), `HTTP ${response.status}`);
-        setOutput('Error: Failed to generate content. Please try again.');
-        setCompleted(true);
+        const errorMsg = 'Error: Failed to generate content. Please try again.';
+        updateLastAssistantMessage(currentSession.id, errorMsg);
         setLoading(false);
         return;
       }
@@ -110,54 +152,55 @@ export function useAISidebar({ context, itemId, available: availableProp }: UseA
           if (done) break;
           const chunk = decoder.decode(value, { stream: true });
           accumulated += chunk;
-          setOutput(accumulated);
+          updateLastAssistantMessage(currentSession.id, accumulated);
         }
         logOutput(JSON.stringify(requestBody), accumulated);
       } else {
         const data = await response.json();
         const formatted = JSON.stringify(data, null, 2);
-        setOutput(formatted);
+        updateLastAssistantMessage(currentSession.id, formatted);
         logOutput(JSON.stringify(requestBody), formatted);
       }
-
-      setCompleted(true);
     } catch {
-      setOutput('Error: Connection failed. Please check your network.');
-      setCompleted(true);
+      updateLastAssistantMessage(currentSession.id, 'Error: Connection failed. Please check your network.');
     } finally {
       setLoading(false);
     }
-  }, [itemId, context]);
+  }, [itemId, context, itemTitle, getOrCreateSession, addMessage, updateLastAssistantMessage]);
 
   const handleSave = useCallback(async () => {
-    if (!activeAction || !output) return;
+    if (!activeAction || messages.length === 0) return;
+    const lastAssistant = [...messages].reverse().find((m) => m.role === 'assistant');
+    if (!lastAssistant) return;
 
     setSaveStatus('saving');
-    const result = await saveAIContent(itemId, context, output, activeAction.filename);
+    const result = await saveAIContent(itemId, context, lastAssistant.content, activeAction.filename);
 
     if (result.success) {
       setSaveStatus('saved');
     } else {
       setSaveStatus('error');
     }
-  }, [activeAction, output, itemId, context]);
+  }, [activeAction, messages, itemId, context]);
 
   const handleOpenInEditor = useCallback(async () => {
     if (!activeAction) return;
-    const result = await saveAIContent(itemId, context, output, activeAction.filename);
+    const lastAssistant = [...messages].reverse().find((m) => m.role === 'assistant');
+    if (!lastAssistant) return;
+
+    const result = await saveAIContent(itemId, context, lastAssistant.content, activeAction.filename);
     if (result.success && result.path) {
       router.push(`/edit/${result.path}`);
     }
-  }, [activeAction, output, itemId, context, router]);
+  }, [activeAction, messages, itemId, context, router]);
 
   const handleCustomPrompt = useCallback(async () => {
     if (!customPrompt.trim() || loading) return;
 
-    const isGeneral = detectGeneralQuestion(customPrompt.trim());
+    const userText = customPrompt.trim();
+    const isGeneral = detectGeneralQuestion(userText);
 
     setLoading(true);
-    setOutput('');
-    setCompleted(false);
     setActiveAction({
       id: 'custom',
       label: 'Custom',
@@ -168,15 +211,24 @@ export function useAISidebar({ context, itemId, available: availableProp }: UseA
     });
     setSaveStatus('idle');
 
+    // Add user message to chat
+    const currentSession = getOrCreateSession(context, itemId, itemTitle || itemId);
+    addMessage(currentSession.id, 'user', userText);
+    addMessage(currentSession.id, 'assistant', '');
+    setCustomPrompt('');
+
     try {
+      // Build prompt with conversation context
+      const contextualPrompt = buildContextualPrompt(userText, isGeneral);
+
       const requestBody = {
         action: 'custom',
         itemId,
         context,
-        prompt: customPrompt.trim(),
+        prompt: contextualPrompt,
         isGeneral,
       };
-      logInput(customPrompt.trim(), 'custom');
+      logInput(userText, 'custom');
 
       const response = await fetch('/api/ai', {
         method: 'POST',
@@ -185,9 +237,8 @@ export function useAISidebar({ context, itemId, available: availableProp }: UseA
       });
 
       if (!response.ok) {
-        logError(customPrompt.trim(), `HTTP ${response.status}`);
-        setOutput('Error: Failed to generate content. Please try again.');
-        setCompleted(true);
+        logError(userText, `HTTP ${response.status}`);
+        updateLastAssistantMessage(currentSession.id, 'Error: Failed to generate content. Please try again.');
         setLoading(false);
         return;
       }
@@ -202,33 +253,33 @@ export function useAISidebar({ context, itemId, available: availableProp }: UseA
           if (done) break;
           const chunk = decoder.decode(value, { stream: true });
           accumulated += chunk;
-          setOutput(accumulated);
+          updateLastAssistantMessage(currentSession.id, accumulated);
         }
-        logOutput(customPrompt.trim(), accumulated);
+        logOutput(userText, accumulated);
       } else {
         const data = await response.json();
         const formatted = typeof data === 'string' ? data : JSON.stringify(data, null, 2);
-        setOutput(formatted);
-        logOutput(customPrompt.trim(), formatted);
+        updateLastAssistantMessage(currentSession.id, formatted);
+        logOutput(userText, formatted);
       }
-
-      setCompleted(true);
-      setCustomPrompt('');
     } catch {
-      setOutput('Error: Connection failed. Please check your network.');
-      setCompleted(true);
+      updateLastAssistantMessage(currentSession.id, 'Error: Connection failed. Please check your network.');
     } finally {
       setLoading(false);
     }
-  }, [customPrompt, loading, itemId, context]);
+  }, [customPrompt, loading, itemId, context, itemTitle, getOrCreateSession, addMessage, updateLastAssistantMessage, buildContextualPrompt]);
+
+  const handleClearChat = useCallback(() => {
+    if (sessionId) {
+      clearSession(sessionId);
+    }
+  }, [sessionId, clearSession]);
 
   return {
     // State
     available,
     collapsed,
     loading,
-    output,
-    completed,
     activeAction,
     saveStatus,
     customPrompt,
@@ -236,6 +287,7 @@ export function useAISidebar({ context, itemId, available: availableProp }: UseA
     width,
     actions,
     promptHelpers,
+    messages,
 
     // Actions
     setCollapsed,
@@ -246,5 +298,6 @@ export function useAISidebar({ context, itemId, available: availableProp }: UseA
     handleSave,
     handleOpenInEditor,
     handleCustomPrompt,
+    handleClearChat,
   };
 }
