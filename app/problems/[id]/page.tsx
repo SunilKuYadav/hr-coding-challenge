@@ -1,7 +1,6 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+import { MarkdownRenderer } from '@/src/components/MarkdownRenderer';
 import { getWorkspacePath } from '@/src/lib/constants';
 import { FileProblemRepository } from '@/src/filesystem/FileProblemRepository';
 import { ProblemService } from '@/src/services/ProblemService';
@@ -149,7 +148,7 @@ export default async function ProblemDetailPage({
         <div className="rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5">
           {notes ? (
             <div className="prose prose-zinc dark:prose-invert max-w-none">
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>{notes}</ReactMarkdown>
+              <MarkdownRenderer>{notes}</MarkdownRenderer>
             </div>
           ) : (
             <p className="text-zinc-400 dark:text-zinc-500 italic">No notes yet. Click Edit to add notes.</p>
@@ -171,7 +170,7 @@ export default async function ProblemDetailPage({
         <div className="rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-5">
           {solution ? (
             <div className="prose prose-zinc dark:prose-invert max-w-none">
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>{solution}</ReactMarkdown>
+              <MarkdownRenderer>{solution}</MarkdownRenderer>
             </div>
           ) : (
             <p className="text-zinc-400 dark:text-zinc-500 italic">No solution yet. Click Edit to add a solution.</p>

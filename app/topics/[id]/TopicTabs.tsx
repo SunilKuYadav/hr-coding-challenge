@@ -2,8 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+import { MarkdownRenderer } from '@/src/components/MarkdownRenderer';
 
 type TabKey = 'overview' | 'notes' | 'patterns' | 'mistakes';
 
@@ -59,9 +58,9 @@ export default function TopicTabs({ overview, notes, patterns, mistakes, editBas
       {/* Tab content */}
       <div className="prose prose-zinc dark:prose-invert max-w-none" role="tabpanel">
         {content[activeTab] ? (
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+          <MarkdownRenderer>
             {content[activeTab]}
-          </ReactMarkdown>
+          </MarkdownRenderer>
         ) : (
           <p className="text-zinc-400 dark:text-zinc-500 italic">
             No content yet. Click Edit to add content.

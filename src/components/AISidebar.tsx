@@ -15,8 +15,7 @@
 
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+import { MarkdownRenderer } from './MarkdownRenderer';
 import { saveAIContent } from './ai-actions';
 import { useAIStatus } from '@/src/providers/AIProvider';
 import { logInput, logOutput, logError } from '@/src/ai/logger';
@@ -442,7 +441,7 @@ export default function AISidebar({ context, itemId, itemTitle, available: avail
                 <QuizJsonRenderer output={output} />
               ) : (
                 <div className="prose prose-sm prose-zinc dark:prose-invert max-w-none">
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{output}</ReactMarkdown>
+                  <MarkdownRenderer>{output}</MarkdownRenderer>
                 </div>
               )}
             </div>

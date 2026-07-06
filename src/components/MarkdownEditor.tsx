@@ -1,8 +1,7 @@
 'use client';
 
 import { useState, useRef, useCallback, useTransition } from 'react';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+import { MarkdownRenderer } from './MarkdownRenderer';
 import { saveFile } from '@/app/edit/actions';
 
 /* ─── AI Text Generation Hook ─── */
@@ -308,9 +307,9 @@ export default function MarkdownEditor({ content, filePath }: MarkdownEditorProp
             Preview
           </div>
           <div className="flex-1 overflow-y-auto p-4 prose prose-zinc dark:prose-invert max-w-none">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            <MarkdownRenderer>
               {markdown}
-            </ReactMarkdown>
+            </MarkdownRenderer>
           </div>
         </div>
       </div>

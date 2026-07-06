@@ -1,8 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+import { MarkdownRenderer } from '@/src/components/MarkdownRenderer';
 import type { CategorizedItem, AnswerRecord, SessionSummary, GeneratableContent } from '../../lib/types';
 import { generateContentFromSession } from '../../lib/api';
 
@@ -122,7 +121,7 @@ export function SummaryPhase({
                       Question
                     </p>
                     <div className="prose prose-sm prose-zinc dark:prose-invert max-w-none">
-                      <ReactMarkdown remarkPlugins={[remarkGfm]}>{a.question}</ReactMarkdown>
+                      <MarkdownRenderer>{a.question}</MarkdownRenderer>
                     </div>
                   </div>
 
@@ -143,7 +142,7 @@ export function SummaryPhase({
                     </p>
                     <div className="p-3 rounded bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800">
                       <div className="prose prose-sm prose-zinc dark:prose-invert max-w-none">
-                        <ReactMarkdown remarkPlugins={[remarkGfm]}>{a.correctAnswer}</ReactMarkdown>
+                        <MarkdownRenderer>{a.correctAnswer}</MarkdownRenderer>
                       </div>
                     </div>
                   </div>
@@ -291,7 +290,7 @@ export function SummaryPhase({
               ) : (
                 <div className="rounded-md border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 p-4 max-h-80 overflow-y-auto">
                   <div className="prose prose-sm prose-zinc dark:prose-invert max-w-none">
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>{gen.content}</ReactMarkdown>
+                    <MarkdownRenderer>{gen.content}</MarkdownRenderer>
                   </div>
                 </div>
               )}

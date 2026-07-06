@@ -1,7 +1,6 @@
 'use client';
 
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+import { MarkdownRenderer } from '@/src/components/MarkdownRenderer';
 import type { EvaluationResult } from '../../lib/types';
 
 interface FeedbackPhaseProps {
@@ -82,9 +81,9 @@ export function FeedbackPhase({ evaluation, isLastQuestion, onNext }: FeedbackPh
               ✓ Expected Answer
             </h4>
             <div className="prose prose-sm prose-zinc dark:prose-invert max-w-none">
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              <MarkdownRenderer>
                 {evaluation.correctAnswer}
-              </ReactMarkdown>
+              </MarkdownRenderer>
             </div>
           </div>
         )}

@@ -1,7 +1,6 @@
 'use client';
 
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+import { MarkdownRenderer } from '@/src/components/MarkdownRenderer';
 import type { ReviewQuestion } from '../../lib/types';
 
 interface AnsweringPhaseProps {
@@ -46,9 +45,9 @@ export function AnsweringPhase({
 
         {/* Question */}
         <div className="prose prose-sm prose-zinc dark:prose-invert max-w-none mb-6">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+          <MarkdownRenderer>
             {question.question}
-          </ReactMarkdown>
+          </MarkdownRenderer>
         </div>
 
         {/* Response input */}
@@ -97,7 +96,7 @@ export function AnsweringPhase({
             Hint
           </p>
           <div className="prose prose-sm prose-zinc dark:prose-invert max-w-none">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{hint}</ReactMarkdown>
+            <MarkdownRenderer>{hint}</MarkdownRenderer>
           </div>
         </div>
       )}
