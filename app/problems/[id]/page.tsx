@@ -7,6 +7,7 @@ import { FileProblemRepository } from '@/src/filesystem/FileProblemRepository';
 import { ProblemService } from '@/src/services/ProblemService';
 import AISidebar from '@/src/components/AISidebar';
 import RateConfidenceButton from '@/src/components/RateConfidenceButton';
+import SelfTestButton from '@/src/components/SelfTestButton';
 
 export default async function ProblemDetailPage({
   params,
@@ -80,16 +81,23 @@ export default async function ProblemDetailPage({
               </span>
             </div>
           </div>
-          {problem.url && (
-            <a
-              href={problem.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="shrink-0 text-sm text-blue-600 dark:text-blue-400 hover:underline"
-            >
-              Open Problem ↗
-            </a>
-          )}
+          <div className="flex items-center gap-3 shrink-0">
+            <SelfTestButton
+              itemId={id}
+              itemType="problem"
+              confidence={revision.confidence}
+            />
+            {problem.url && (
+              <a
+                href={problem.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
+              >
+                Open Problem ↗
+              </a>
+            )}
+          </div>
         </div>
 
         {/* Companies */}

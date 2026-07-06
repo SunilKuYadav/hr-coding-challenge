@@ -6,6 +6,7 @@ import { TopicService } from '@/src/services/TopicService';
 import TopicTabs from './TopicTabs';
 import AISidebar from '@/src/components/AISidebar';
 import RateConfidenceButton from '@/src/components/RateConfidenceButton';
+import SelfTestButton from '@/src/components/SelfTestButton';
 
 export default async function TopicDetailPage({
   params,
@@ -87,7 +88,11 @@ export default async function TopicDetailPage({
               </div>
             )}
           </div>
-
+          <SelfTestButton
+            itemId={id}
+            itemType="topic"
+            confidence={topic.confidence}
+          />
         </div>
       </header>
 

@@ -19,6 +19,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { saveAIContent } from './ai-actions';
 import { useAIStatus } from '@/src/providers/AIProvider';
+import { logInput, logOutput, logError } from '@/src/ai/logger';
 
 export interface AISidebarProps {
   context: 'topic' | 'problem';
@@ -169,13 +170,17 @@ export default function AISidebar({ context, itemId, itemTitle, available: avail
     setSaveStatus('idle');
 
     try {
+      const requestBody = { action: actionConfig.action, itemId, context };
+      logInput(JSON.stringify(requestBody), actionConfig.action);
+
       const response = await fetch('/api/ai', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: actionConfig.action, itemId, context }),
+        body: JSON.stringify(requestBody),
       });
 
       if (!response.ok) {
+        logError(JSON.stringify(requestBody), `HTTP ${response.status}`);
         setOutput('Error: Failed to generate content. Please try again.');
         setCompleted(true);
         setLoading(false);
@@ -195,11 +200,13 @@ export default function AISidebar({ context, itemId, itemTitle, available: avail
           accumulated += chunk;
           setOutput(accumulated);
         }
+        logOutput(JSON.stringify(requestBody), accumulated);
       } else {
         // JSON response
         const data = await response.json();
         const formatted = JSON.stringify(data, null, 2);
         setOutput(formatted);
+        logOutput(JSON.stringify(requestBody), formatted);
       }
 
       setCompleted(true);
@@ -243,19 +250,23 @@ export default function AISidebar({ context, itemId, itemTitle, available: avail
     setSaveStatus('idle');
 
     try {
+      const requestBody = {
+        action: 'custom',
+        itemId,
+        context,
+        prompt: customPrompt.trim(),
+        isGeneral,
+      };
+      logInput(customPrompt.trim(), 'custom');
+
       const response = await fetch('/api/ai', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          action: 'custom',
-          itemId,
-          context,
-          prompt: customPrompt.trim(),
-          isGeneral,
-        }),
+        body: JSON.stringify(requestBody),
       });
 
       if (!response.ok) {
+        logError(customPrompt.trim(), `HTTP ${response.status}`);
         setOutput('Error: Failed to generate content. Please try again.');
         setCompleted(true);
         setLoading(false);
@@ -274,9 +285,12 @@ export default function AISidebar({ context, itemId, itemTitle, available: avail
           accumulated += chunk;
           setOutput(accumulated);
         }
+        logOutput(customPrompt.trim(), accumulated);
       } else {
         const data = await response.json();
-        setOutput(typeof data === 'string' ? data : JSON.stringify(data, null, 2));
+        const formatted = typeof data === 'string' ? data : JSON.stringify(data, null, 2);
+        setOutput(formatted);
+        logOutput(customPrompt.trim(), formatted);
       }
 
       setCompleted(true);

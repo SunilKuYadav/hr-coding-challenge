@@ -9,6 +9,9 @@
  * Requirements: 6.1, 6.4
  */
 
+import { logInput, logOutput, logError } from './logger';
+import { addLogEntry, emitStreamChunk } from './log-store';
+
 export interface AIClient {
   isAvailable(): Promise<boolean>;
   generate(prompt: string, model?: string): AsyncGenerator<string>;
@@ -50,6 +53,9 @@ export function createAIClient(options: AIClientOptions): AIClient {
     },
 
     async *generate(prompt: string, model: string = defaultModel): AsyncGenerator<string> {
+      logInput(prompt, model);
+      let fullResponse = '';
+
       try {
         const headers: Record<string, string> = {
           'Content-Type': 'application/json',
@@ -69,6 +75,7 @@ export function createAIClient(options: AIClientOptions): AIClient {
         });
 
         if (!response.ok || !response.body) {
+          logError(prompt, `no response (status: ${response.status})`);
           return;
         }
 
@@ -91,6 +98,8 @@ export function createAIClient(options: AIClientOptions): AIClient {
 
             const data = trimmed.slice(6);
             if (data === '[DONE]') {
+              logOutput(prompt, fullResponse);
+              addLogEntry(prompt, fullResponse, model);
               return;
             }
 
@@ -100,6 +109,8 @@ export function createAIClient(options: AIClientOptions): AIClient {
               };
               const content = parsed.choices?.[0]?.delta?.content;
               if (content) {
+                fullResponse += content;
+                emitStreamChunk(prompt, content, model);
                 yield content;
               }
             } catch {
@@ -118,6 +129,8 @@ export function createAIClient(options: AIClientOptions): AIClient {
               };
               const content = parsed.choices?.[0]?.delta?.content;
               if (content) {
+                fullResponse += content;
+                emitStreamChunk(prompt, content, model);
                 yield content;
               }
             } catch {
@@ -125,8 +138,11 @@ export function createAIClient(options: AIClientOptions): AIClient {
             }
           }
         }
+
+        logOutput(prompt, fullResponse);
+        addLogEntry(prompt, fullResponse, model);
       } catch {
-        // Connection error — yield nothing
+        logError(prompt, 'connection failed');
         return;
       }
     },

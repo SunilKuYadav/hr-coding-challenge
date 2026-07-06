@@ -1,6 +1,8 @@
 export { createAIClient, createOllamaClient } from './client';
 export type { AIClient, AIClientOptions, OllamaClient } from './client';
 
+export { logInput, logOutput, logError, installAIFetchLogger } from './logger';
+
 export { generateSummary } from './summarize';
 
 export { generateQuiz } from './generateQuiz';

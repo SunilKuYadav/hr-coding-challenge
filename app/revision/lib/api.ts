@@ -1,4 +1,4 @@
-import type { CategorizedItem, ReviewQuestion, EvaluationResult, SessionSummary, AnswerRecord } from './types';
+import type { CategorizedItem, ReviewQuestion, EvaluationResult, SessionSummary, AnswerRecord, GeneratableContent } from './types';
 
 /**
  * Generates AI review questions for a given revision item.
@@ -124,5 +124,43 @@ export async function streamHint(
     }
   } else {
     onChunk('Unable to get hint right now.');
+  }
+}
+
+/**
+ * Generates content (notes, mistakes, patterns, solution, flashcards)
+ * based on the review session Q&A and existing content.
+ * Streams the generated content via callback.
+ */
+export async function generateContentFromSession(
+  item: CategorizedItem,
+  answers: AnswerRecord[],
+  contentType: GeneratableContent,
+  onChunk: (accumulated: string) => void
+): Promise<void> {
+  const res = await fetch('/api/ai/review-session', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      action: 'generate-content',
+      itemId: item.item.itemId,
+      itemType: item.item.itemType,
+      answers,
+      contentType,
+    }),
+  });
+
+  if (res.ok && res.body) {
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let accumulated = '';
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      accumulated += decoder.decode(value, { stream: true });
+      onChunk(accumulated);
+    }
+  } else {
+    onChunk('Unable to generate content right now.');
   }
 }

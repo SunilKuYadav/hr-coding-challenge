@@ -90,7 +90,6 @@ export async function POST(request: NextRequest) {
 
       const questions = parseReviewQuestions(fullResponse);
       if (questions.length === 0 && fullResponse.trim().length > 0) {
-        // Parsing failed but we got a response — return debug info
         return NextResponse.json({ questions: [], rawResponse: fullResponse.slice(0, 500) });
       }
       return NextResponse.json({ questions });
@@ -180,6 +179,39 @@ export async function POST(request: NextRequest) {
 
       const summary = parseSessionSummary(fullResponse);
       return NextResponse.json(summary);
+    }
+
+    if (action === 'generate-content') {
+      const { answers, contentType } = body as {
+        answers: Array<{ question: string; questionType: string; response: string; score: number; mistakes: string[]; keyInsights: string[]; feedback: string; correctAnswer: string }>;
+        contentType: string;
+      };
+      if (!answers || !Array.isArray(answers) || !contentType) {
+        return NextResponse.json({ error: 'Missing answers or contentType' }, { status: 400 });
+      }
+
+      const content = await getItemContent(itemId, itemType, workspacePath);
+      const prompt = buildGenerateContentPrompt(answers, content || '', itemType, contentType);
+
+      const stream = new ReadableStream({
+        async start(controller) {
+          try {
+            for await (const chunk of client.generate(prompt)) {
+              controller.enqueue(new TextEncoder().encode(chunk));
+            }
+            controller.close();
+          } catch {
+            controller.close();
+          }
+        },
+      });
+
+      return new Response(stream, {
+        headers: {
+          'Content-Type': 'text/plain; charset=utf-8',
+          'Transfer-Encoding': 'chunked',
+        },
+      });
     }
 
     return NextResponse.json({ error: 'Unknown action' }, { status: 400 });
@@ -377,6 +409,41 @@ Return ONLY valid JSON with this exact structure (no additional text, no markdow
 }
 
 JSON:`;
+}
+
+function buildGenerateContentPrompt(
+  answers: Array<{ question: string; questionType: string; response: string; score: number; mistakes: string[]; keyInsights: string[]; feedback: string; correctAnswer: string }>,
+  existingContent: string,
+  itemType: string,
+  contentType: string
+): string {
+  const sessionData = answers.map((a, i) =>
+    `Q${i + 1} (${a.questionType}): ${a.question}\nUser Answer: ${a.response}\nScore: ${a.score}/5\nCorrect Answer: ${a.correctAnswer}\nMistakes: ${a.mistakes.join('; ') || 'None'}\nKey Insights: ${a.keyInsights.join('; ') || 'None'}\nFeedback: ${a.feedback}`
+  ).join('\n\n');
+
+  const contentTypePrompts: Record<string, string> = {
+    notes: `Generate updated/improved notes in Markdown format. Include key concepts, important details, and things the user should remember. Merge with any existing notes content — do not lose existing information, but add new insights from this session.`,
+    mistakes: `Generate a consolidated list of common mistakes and pitfalls in Markdown format. Include mistakes from this session AND any from the existing content. Each mistake should have a brief explanation of why it's wrong and how to avoid it. Format as a clear list.`,
+    patterns: `Generate coding patterns and approaches in Markdown format. Include patterns relevant to this topic/problem that were tested in the session. Merge with existing patterns. Each pattern should include when to use it and a brief example or explanation.`,
+    solution: `Generate an improved solution explanation in Markdown format. Based on the review session Q&A, provide a clear solution approach with explanation. Include time/space complexity if relevant. Build upon existing solution content.`,
+    flashcards: `Generate flashcards in Markdown format. Create Q&A pairs based on the review session insights and existing content. Format each as:\n\n### Card N\n**Q:** question\n**A:** answer\n\nFocus on key concepts, common mistakes, and important patterns that need to be memorized.`,
+  };
+
+  const instruction = contentTypePrompts[contentType] || contentTypePrompts.notes;
+
+  return `You are an expert coding mentor generating study material based on a review session.
+
+Item type: ${itemType}
+
+Existing content for this item:
+${existingContent || '(No existing content)'}
+
+Review session Q&A:
+${sessionData}
+
+Task: ${instruction}
+
+Generate the content in clean Markdown format. Be thorough, accurate, and practical.`;
 }
 
 /* ─── Response Parsers ─── */

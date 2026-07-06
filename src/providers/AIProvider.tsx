@@ -10,6 +10,7 @@
  */
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
+import { installAIFetchLogger } from '@/src/ai/logger';
 
 interface AIStatusContextValue {
   available: boolean;
@@ -21,6 +22,11 @@ const HEALTH_CHECK_INTERVAL_MS = 30_000;
 
 export function AIProvider({ children }: { children: ReactNode }) {
   const [available, setAvailable] = useState(false);
+
+  useEffect(() => {
+    // Install fetch logger for all AI API calls in the browser
+    installAIFetchLogger();
+  }, []);
 
   useEffect(() => {
     let mounted = true;

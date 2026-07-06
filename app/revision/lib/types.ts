@@ -48,6 +48,22 @@ export interface SessionSummary {
   summary: string;
 }
 
+/* ─── Content Generation Types ─────────────────────────── */
+
+export type GeneratableContent =
+  | 'notes'
+  | 'mistakes'
+  | 'patterns'
+  | 'solution'
+  | 'flashcards';
+
+export interface GeneratedContentResult {
+  type: GeneratableContent;
+  content: string;
+  loading: boolean;
+  error?: string;
+}
+
 export type SessionPhase =
   | 'idle'
   | 'generating'
