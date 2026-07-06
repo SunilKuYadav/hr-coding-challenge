@@ -102,13 +102,13 @@ const copiedMovie = new Movie4(originalMovie);
 copiedMovie.displayDetails(); // Output: Inception 148
 
 // Private Constructor
-const PrivateConstructorToken = Symbol('PrivateConstructorToken');
+const PrivateConstructorToken = Symbol("PrivateConstructorToken");
 class Singleton {
   constructor(token) {
     if (token !== PrivateConstructorToken) {
-      throw new Error('Use MyClass.create() to get instance.');
+      throw new Error("Use MyClass.create() to get instance.");
     }
-    this.someProperty = 'value';
+    this.someProperty = "value";
   }
 
   static create() {
@@ -116,9 +116,8 @@ class Singleton {
   }
 }
 
-const instance = Singleton.create();  // works
-instance.someProperty = 'hello'
-const instance2 = Singleton.create();  // works
-console.log(instance, instance2)
+const instance = Singleton.create(); // works
+instance.someProperty = "hello";
+const instance2 = Singleton.create(); // works
+console.log(instance, instance2);
 // const failInstance = new MyClass();  // throws Error
-

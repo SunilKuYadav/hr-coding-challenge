@@ -158,7 +158,6 @@ orderService.placeOrder(order);
 // •	ISP: Email & SMS services are separate, no forced unused methods.
 // •	DIP: OrderService depends on abstractions (Database, Notification), not concrete implementations.
 
-
 // User -> Cart: addItem()
 // User -> Order: create Order with Cart
 // User -> Checkout: initiate payment

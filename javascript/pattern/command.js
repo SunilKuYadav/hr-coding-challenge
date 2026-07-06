@@ -61,7 +61,7 @@ function CancelOrderCommand(id) {
 
 function TrackOrderCommand(id) {
   return new Command(() =>
-    console.log(`Your order ${id} will arrive in 20 minutes.`)
+    console.log(`Your order ${id} will arrive in 20 minutes.`),
   );
 }
 
@@ -71,10 +71,8 @@ manager.execute(new PlaceOrderCommand("Pad Thai", "1234"));
 manager.execute(new TrackOrderCommand("1234"));
 manager.execute(new CancelOrderCommand("1234"));
 
-
 // Pros
 // The command pattern allows us to decouple methods from the object that executes the operation. It gives you more control if you’re dealing with commands that have a certain lifespan, or commands that should be queued and executed at specific times.
 
 // Cons
 // The use cases for the command pattern are quite limited, and often adds unnecessary boilerplate to an application.
-

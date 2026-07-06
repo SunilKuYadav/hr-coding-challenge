@@ -133,6 +133,7 @@ renderApp();
  * 🔹 Why Must Hooks Be Called at the Top Level?
  * Because React depends on the order of hooks to store and retrieve their state correctly.
  * 
+ * 
  * 🔹 Why Only in React Components?
  * Because React associates hook state with a specific component instance.
  * Calling hooks outside of a component breaks this association.

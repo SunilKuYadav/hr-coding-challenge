@@ -185,8 +185,7 @@ const trappingRainWaterTowPointer = (number) => {
 // get sum of all sub array of min values
 const minimumOfSubarray = (number) => {
   let sum = 0;
-
-}
+};
 
 const number = [3, 1, 2, 4];
 // const number = [1, 4, 6, 7, 3, 7, 8, 1];

@@ -7,7 +7,7 @@ function baz() {
 bar();
 baz();
 // L => M
-// Explaination:
+// Explanation:
 //  You call bar().
 // 	bar is an async function, but being async doesn’t make the whole function delayed.
 //  This is a normal synchronous statement, so "L" is printed immediately.
@@ -54,6 +54,7 @@ console.log("G");
 setTimeout(() => {
   console.log("B");
 }, 0);
+
 Promise.resolve()
   .then(() => {
     console.log("C");
@@ -64,6 +65,7 @@ Promise.resolve()
 setTimeout(() => {
   console.log("E");
 }, 0);
+
 Promise.resolve()
   .then(() => {
     console.log("F");
@@ -71,6 +73,7 @@ Promise.resolve()
   .then(() => {
     console.log("I");
   });
+
 // C => F => H => I => B => E
 
 // Step 1 – Scheduling
