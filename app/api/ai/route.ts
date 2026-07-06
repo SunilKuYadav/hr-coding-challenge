@@ -18,6 +18,8 @@ import {
   explainConcept,
   suggestSimilarProblems,
   generateInterviewPrep,
+  buildCustomGeneralPrompt,
+  buildCustomItemPrompt,
 } from '@/ai';
 import { getWorkspacePath } from '@/src/lib/constants';
 import { FileTopicRepository } from '@/src/filesystem/FileTopicRepository';
@@ -59,11 +61,11 @@ export async function POST(request: NextRequest) {
 
       if (isGeneral) {
         // General question — no item-specific context
-        fullPrompt = `You are a helpful coding tutor. Answer the following question:\n\n${prompt}`;
+        fullPrompt = buildCustomGeneralPrompt(prompt);
       } else {
         // Item-specific question — include context from the problem/topic
         const contextContent = content || await getItemContextByType(itemId, context || null, workspacePath);
-        fullPrompt = `You are a helpful coding tutor. The user is studying a ${context || 'topic/problem'}. Here is the relevant context:\n\n${contextContent}\n\nUser question: ${prompt}`;
+        fullPrompt = buildCustomItemPrompt(prompt, context || 'topic/problem', contextContent);
       }
 
       const generator = client.generate(fullPrompt);
