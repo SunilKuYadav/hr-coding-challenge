@@ -2,9 +2,9 @@
  * API route for generating AI coding interview problems.
  *
  * POST handler accepts { source, context, language, difficulty } and returns
- * a GeneratedProblem JSON object with full problem metadata.
+ * a RichProblem JSON object with full problem metadata.
  *
- * Requirements: 4.1-4.9
+ * Requirements: 5.1, 5.2, 5.3, 5.4
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -13,8 +13,9 @@ import { AI_TIMEOUT } from '@/app/coding-interview/lib/constants';
 import type {
   InterviewSource,
   InterviewContext,
-  GeneratedProblem,
 } from '@/app/coding-interview/lib/types';
+import { assembleProblem, type AICoreOutput } from '@/app/coding-interview/services/assemblyLayer';
+import { RichProblemSchema } from '@/app/coding-interview/lib/schemas';
 
 const DEFAULT_BASE_URL = process.env.OPENAI_BASE_URL || 'http://127.0.0.1:1234/v1';
 const API_KEY = process.env.OPENAI_API_KEY || '';
@@ -103,7 +104,23 @@ Generate a complete coding interview problem and respond with ONLY a valid JSON 
   "expectedTimeComplexity": "string - Big-O notation e.g., O(n log n)",
   "expectedSpaceComplexity": "string - Big-O notation e.g., O(n)",
   "companyTags": ["string array - 1 to 5 companies that ask similar questions"],
-  "boilerplate": "string - starter code in ${language} with function signature and TODO comment"
+  "functionSignature": {
+    "name": "string - valid JS identifier (function name)",
+    "parameters": [{"name": "string - param name", "type": "string - param type"}],
+    "returnType": "string - return type"
+  },
+  "hints": [
+    {"level": 1, "content": "string - first hint (most general)"},
+    {"level": 2, "content": "string - second hint"},
+    {"level": 3, "content": "string - third hint (more specific)"},
+    {"level": 4, "content": "string - fourth hint (most specific/near solution)"}
+  ],
+  "interviewMetadata": {
+    "expectedPatterns": ["string array of algorithm patterns"],
+    "followUpTopics": ["string array of follow-up discussion topics"],
+    "commonMistakes": ["string array of common mistakes"],
+    "optimizationQuestions": ["string array of optimization questions"]
+  }
 }
 
 Requirements:
@@ -113,64 +130,14 @@ Requirements:
 - hiddenTestCases: at least 5 items covering various scenarios
 - companyTags: between 1 and 5 items
 - expectedTimeComplexity and expectedSpaceComplexity must be valid Big-O notation
-- boilerplate must be valid ${language} code with a clear function signature
+- functionSignature.name must be a valid JavaScript identifier
+- functionSignature.parameters must contain at least 1 parameter
+- hints: exactly 4 items with levels 1 through 4
+- interviewMetadata arrays must each contain at least 1 item
 - The problem must have at least one valid solution implementable within 45 minutes
+- Do NOT include starterCode, providedCode, helperFunctions, parser, validator, executionConfig, or boilerplate — these are derived server-side
 
 Respond with ONLY the JSON object.`;
-}
-
-function validateGeneratedProblem(data: unknown): data is GeneratedProblem {
-  if (!data || typeof data !== 'object') return false;
-
-  const problem = data as Record<string, unknown>;
-
-  // Check required string fields
-  const requiredStrings = [
-    'title', 'difficulty', 'category', 'statement',
-    'inputFormat', 'outputFormat', 'expectedTimeComplexity',
-    'expectedSpaceComplexity', 'boilerplate',
-  ];
-  for (const field of requiredStrings) {
-    if (typeof problem[field] !== 'string' || (problem[field] as string).length === 0) {
-      return false;
-    }
-  }
-
-  // Validate difficulty
-  if (!['easy', 'medium', 'hard'].includes(problem.difficulty as string)) {
-    return false;
-  }
-
-  // Validate arrays with minimum counts
-  if (!Array.isArray(problem.tags) || problem.tags.length < 2) return false;
-  if (!Array.isArray(problem.samples) || problem.samples.length < 2) return false;
-  if (!Array.isArray(problem.edgeCases) || problem.edgeCases.length < 2) return false;
-  if (!Array.isArray(problem.hiddenTestCases) || problem.hiddenTestCases.length < 5) return false;
-  if (!Array.isArray(problem.companyTags) || problem.companyTags.length < 1 || problem.companyTags.length > 5) return false;
-  if (!Array.isArray(problem.constraints)) return false;
-
-  // Validate sample structure
-  for (const sample of problem.samples as Array<Record<string, unknown>>) {
-    if (typeof sample.input !== 'string' || typeof sample.output !== 'string' || typeof sample.explanation !== 'string') {
-      return false;
-    }
-  }
-
-  // Validate edge case structure
-  for (const edgeCase of problem.edgeCases as Array<Record<string, unknown>>) {
-    if (typeof edgeCase.description !== 'string' || typeof edgeCase.input !== 'string' || typeof edgeCase.expectedOutput !== 'string') {
-      return false;
-    }
-  }
-
-  // Validate hidden test case structure
-  for (const testCase of problem.hiddenTestCases as Array<Record<string, unknown>>) {
-    if (!('input' in testCase) || !('expectedOutput' in testCase)) {
-      return false;
-    }
-  }
-
-  return true;
 }
 
 export async function POST(request: NextRequest) {
@@ -267,15 +234,34 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Validate the parsed response matches GeneratedProblem structure
-    if (!validateGeneratedProblem(parsed)) {
+    // Assemble the full RichProblem from AI core output
+    let assembled;
+    try {
+      assembled = assembleProblem(parsed as AICoreOutput, body.language ?? 'javascript');
+    } catch (err) {
       return NextResponse.json(
-        { error: 'AI response does not match required problem structure' },
+        {
+          error: 'Failed to assemble problem from AI response',
+          details: err instanceof Error ? err.message : String(err),
+        },
         { status: 502 }
       );
     }
 
-    return NextResponse.json(parsed as GeneratedProblem);
+    // Validate the assembled RichProblem with Zod
+    const parseResult = RichProblemSchema.safeParse(assembled);
+
+    if (!parseResult.success) {
+      return NextResponse.json(
+        {
+          error: 'AI response does not match required problem structure',
+          issues: parseResult.error.issues,
+        },
+        { status: 502 }
+      );
+    }
+
+    return NextResponse.json(parseResult.data);
   } catch {
     return NextResponse.json(
       { error: 'Internal server error' },

@@ -1,8 +1,8 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { EditorView, keymap, lineNumbers, highlightActiveLine, drawSelection } from '@codemirror/view';
-import { EditorState } from '@codemirror/state';
+import { EditorView, keymap, lineNumbers, highlightActiveLine, drawSelection, Decoration, DecorationSet, ViewPlugin, ViewUpdate } from '@codemirror/view';
+import { EditorState, RangeSetBuilder, Extension } from '@codemirror/state';
 import { javascript } from '@codemirror/lang-javascript';
 import { closeBrackets, closeBracketsKeymap } from '@codemirror/autocomplete';
 import { defaultKeymap, indentWithTab } from '@codemirror/commands';
@@ -38,6 +38,9 @@ const darkTheme = EditorView.theme(
     '.cm-activeLine': {
       backgroundColor: '#1e1e2e80',
     },
+    '.cm-readOnlyRegion': {
+      backgroundColor: '#18182580',
+    },
   },
   { dark: true }
 );
@@ -62,13 +65,58 @@ const lightTheme = EditorView.theme(
     '.cm-activeLine': {
       backgroundColor: '#f8f9fa80',
     },
+    '.cm-readOnlyRegion': {
+      backgroundColor: '#f1f3f5',
+    },
   },
   { dark: false }
 );
 
+/* ─── Read-only region decoration ────────────────────────── */
+
+function createReadOnlyDecoration(readOnlyLength: number) {
+  const readOnlyMark = Decoration.mark({ class: 'cm-readOnlyRegion' });
+
+  return ViewPlugin.fromClass(
+    class {
+      decorations: DecorationSet;
+
+      constructor(view: EditorView) {
+        this.decorations = this.buildDecorations(view);
+      }
+
+      update(update: ViewUpdate) {
+        if (update.docChanged || update.viewportChanged) {
+          this.decorations = this.buildDecorations(update.view);
+        }
+      }
+
+      buildDecorations(view: EditorView): DecorationSet {
+        const builder = new RangeSetBuilder<Decoration>();
+        const docLength = view.state.doc.length;
+        const end = Math.min(readOnlyLength, docLength);
+        if (end > 0) {
+          builder.add(0, end, readOnlyMark);
+        }
+        return builder.finish();
+      }
+    },
+    { decorations: (v) => v.decorations }
+  );
+}
+
 /* ─── CodeEditor Component ───────────────────────────────── */
 
-export function CodeEditor({ value, onChange, language, boilerplate, readOnly = false }: CodeEditorProps) {
+export function CodeEditor({
+  value,
+  onChange,
+  language,
+  boilerplate,
+  readOnly = false,
+  starterCode,
+  providedCode,
+  helperFunctions,
+}: CodeEditorProps) {
   const editorRef = useRef<HTMLDivElement>(null);
   const viewRef = useRef<EditorView | null>(null);
   const onChangeRef = useRef(onChange);
@@ -81,6 +129,23 @@ export function CodeEditor({ value, onChange, language, boilerplate, readOnly = 
   const [copyStatus, setCopyStatus] = useState<'idle' | 'copied'>('idle');
   const [formatError, setFormatError] = useState<string | null>(null);
 
+  // Determine if we're in rich mode (split view) or legacy mode
+  const isRichMode = starterCode !== undefined && (providedCode !== undefined || helperFunctions !== undefined);
+
+  // Compute read-only content and its length for rich mode
+  const readOnlyContent = useMemo(() => {
+    if (!isRichMode) return '';
+    return [providedCode, helperFunctions].filter(Boolean).join('\n\n');
+  }, [isRichMode, providedCode, helperFunctions]);
+
+  const readOnlyLength = readOnlyContent.length;
+
+  // The separator between read-only and editable regions
+  const separator = readOnlyContent && starterCode ? '\n\n' : '';
+
+  // Full document for rich mode: readOnlyContent + separator + editable content
+  const fullDocumentRef = useRef('');
+
   // Keep onChange ref current
   useEffect(() => {
     onChangeRef.current = onChange;
@@ -89,7 +154,6 @@ export function CodeEditor({ value, onChange, language, boilerplate, readOnly = 
   // Subscribe to dark mode changes
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-
     const handler = (e: MediaQueryListEvent) => setIsDark(e.matches);
     mediaQuery.addEventListener('change', handler);
     return () => mediaQuery.removeEventListener('change', handler);
@@ -104,16 +168,64 @@ export function CodeEditor({ value, onChange, language, boilerplate, readOnly = 
   useEffect(() => {
     if (!editorRef.current) return;
 
-    const updateListener = EditorView.updateListener.of((update) => {
-      if (update.docChanged) {
-        const doc = update.state.doc.toString();
-        onChangeRef.current(doc);
-      }
-    });
+    let initialDoc: string;
+    let extensions: Extension[];
 
-    const state = EditorState.create({
-      doc: value,
-      extensions: [
+    if (isRichMode) {
+      // Rich mode: combine read-only context + editable content
+      initialDoc = readOnlyContent + separator + value;
+      fullDocumentRef.current = initialDoc;
+
+      // Change filter to prevent edits in read-only region
+      const readOnlyBoundary = readOnlyContent.length + separator.length;
+      const readOnlyFilter = EditorState.changeFilter.of((tr) => {
+        let dominated = false;
+        tr.changes.iterChanges((fromA, toA) => {
+          if (fromA < readOnlyBoundary || toA < readOnlyBoundary) {
+            dominated = true;
+          }
+        });
+        return !dominated;
+      });
+
+      // Update listener that only emits the editable portion
+      const updateListener = EditorView.updateListener.of((update) => {
+        if (update.docChanged) {
+          const doc = update.state.doc.toString();
+          fullDocumentRef.current = doc;
+          const editableContent = doc.slice(readOnlyBoundary);
+          onChangeRef.current(editableContent);
+        }
+      });
+
+      extensions = [
+        lineNumbers(),
+        highlightActiveLine(),
+        drawSelection(),
+        bracketMatching(),
+        closeBrackets(),
+        indentOnInput(),
+        syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
+        langExtension,
+        keymap.of([...closeBracketsKeymap, ...defaultKeymap, indentWithTab]),
+        isDark ? darkTheme : lightTheme,
+        EditorView.lineWrapping,
+        readOnlyFilter,
+        createReadOnlyDecoration(readOnlyBoundary),
+        updateListener,
+      ];
+    } else {
+      // Legacy mode: simple editor
+      initialDoc = value;
+
+      const updateListener = EditorView.updateListener.of((update) => {
+        if (update.docChanged) {
+          const doc = update.state.doc.toString();
+          onChangeRef.current(doc);
+        }
+      });
+
+      extensions = [
         lineNumbers(),
         highlightActiveLine(),
         drawSelection(),
@@ -127,7 +239,12 @@ export function CodeEditor({ value, onChange, language, boilerplate, readOnly = 
         EditorView.lineWrapping,
         EditorState.readOnly.of(readOnly),
         updateListener,
-      ],
+      ];
+    }
+
+    const state = EditorState.create({
+      doc: initialDoc,
+      extensions,
     });
 
     const view = new EditorView({
@@ -143,20 +260,31 @@ export function CodeEditor({ value, onChange, language, boilerplate, readOnly = 
     };
     // We intentionally re-create the editor when theme or language changes
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isDark, langExtension, readOnly]);
+  }, [isDark, langExtension, readOnly, isRichMode, readOnlyContent, separator]);
 
   // Sync external value changes into the editor
   useEffect(() => {
     const view = viewRef.current;
     if (!view) return;
 
-    const currentContent = view.state.doc.toString();
-    if (currentContent !== value) {
-      view.dispatch({
-        changes: { from: 0, to: currentContent.length, insert: value },
-      });
+    if (isRichMode) {
+      const readOnlyBoundary = readOnlyContent.length + separator.length;
+      const currentDoc = view.state.doc.toString();
+      const currentEditable = currentDoc.slice(readOnlyBoundary);
+      if (currentEditable !== value) {
+        view.dispatch({
+          changes: { from: readOnlyBoundary, to: currentDoc.length, insert: value },
+        });
+      }
+    } else {
+      const currentContent = view.state.doc.toString();
+      if (currentContent !== value) {
+        view.dispatch({
+          changes: { from: 0, to: currentContent.length, insert: value },
+        });
+      }
     }
-  }, [value]);
+  }, [value, isRichMode, readOnlyContent, separator]);
 
   /* ─── Toolbar Actions ──────────────────────────────────── */
 
@@ -176,27 +304,51 @@ export function CodeEditor({ value, onChange, language, boilerplate, readOnly = 
   }, []);
 
   const handleReset = useCallback(() => {
-    if (window.confirm('Reset editor to boilerplate code? This cannot be undone.')) {
-      onChange(boilerplate);
+    if (isRichMode) {
+      if (window.confirm('Reset editor to starter code? This cannot be undone.')) {
+        // In rich mode, only reset the editable portion to starterCode
+        onChange(starterCode ?? '');
+      }
+    } else {
+      if (window.confirm('Reset editor to boilerplate code? This cannot be undone.')) {
+        onChange(boilerplate);
+      }
     }
-  }, [boilerplate, onChange]);
+  }, [isRichMode, starterCode, boilerplate, onChange]);
 
   const handleFormat = useCallback(() => {
     const view = viewRef.current;
     if (!view) return;
 
-    const code = view.state.doc.toString();
-    const lang = language === 'typescript' ? 'typescript' : 'javascript';
-    const result = formatCode(code, lang);
+    if (isRichMode) {
+      // Only format the editable region
+      const readOnlyBoundary = readOnlyContent.length + separator.length;
+      const doc = view.state.doc.toString();
+      const editableCode = doc.slice(readOnlyBoundary);
+      const lang = language === 'typescript' ? 'typescript' : 'javascript';
+      const result = formatCode(editableCode, lang);
 
-    if (result.error) {
-      setFormatError(result.error);
-      setTimeout(() => setFormatError(null), 4000);
+      if (result.error) {
+        setFormatError(result.error);
+        setTimeout(() => setFormatError(null), 4000);
+      } else {
+        setFormatError(null);
+        onChange(result.formatted);
+      }
     } else {
-      setFormatError(null);
-      onChange(result.formatted);
+      const code = view.state.doc.toString();
+      const lang = language === 'typescript' ? 'typescript' : 'javascript';
+      const result = formatCode(code, lang);
+
+      if (result.error) {
+        setFormatError(result.error);
+        setTimeout(() => setFormatError(null), 4000);
+      } else {
+        setFormatError(null);
+        onChange(result.formatted);
+      }
     }
-  }, [language, onChange]);
+  }, [isRichMode, readOnlyContent, separator, language, onChange]);
 
   const handleFullscreenToggle = useCallback(() => {
     setIsFullscreen((prev) => !prev);
@@ -219,6 +371,11 @@ export function CodeEditor({ value, onChange, language, boilerplate, readOnly = 
           <span className="text-xs font-medium text-zinc-500 dark:text-zinc-400 uppercase mr-2">
             {language}
           </span>
+          {isRichMode && (
+            <span className="text-xs text-zinc-400 dark:text-zinc-500">
+              (read-only context above)
+            </span>
+          )}
         </div>
         <div className="flex items-center gap-2">
           {/* Copy button */}
@@ -252,7 +409,7 @@ export function CodeEditor({ value, onChange, language, boilerplate, readOnly = 
             className="inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded
               text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700
               disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-            aria-label="Reset to boilerplate code"
+            aria-label={isRichMode ? 'Reset to starter code' : 'Reset to boilerplate code'}
           >
             <ResetIcon />
             <span>Reset</span>

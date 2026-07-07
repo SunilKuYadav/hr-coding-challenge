@@ -1,5 +1,7 @@
 /* ─── Interview Module Configuration ─────────────────────── */
 
+import type { RichProblem } from './schemas';
+
 export type InterviewSource = 'problem' | 'topic' | 'self-test' | 'revision' | 'practice' | 'interview';
 
 export type InterviewContext =
@@ -196,7 +198,7 @@ export interface InterviewState {
   duration: number; // minutes
 
   // Problem
-  problem: GeneratedProblem | null;
+  problem: RichProblem | null;
 
   // Editor
   code: string;
@@ -252,6 +254,10 @@ export interface CodeEditorProps {
   language: 'javascript' | 'typescript';
   boilerplate: string;
   readOnly?: boolean;
+  /** Rich mode props — when provided, the editor renders a split view */
+  starterCode?: string;
+  providedCode?: string;
+  helperFunctions?: string;
 }
 
 /* ─── Timer Hook Return ──────────────────────────────────── */

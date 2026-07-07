@@ -1,6 +1,7 @@
 'use client';
 
 import { AI_TIMEOUT } from './constants';
+import type { RichProblem } from './schemas';
 import type {
   GeneratedProblem,
   InterviewSource,
@@ -107,10 +108,10 @@ async function handleResponse<T>(response: Response, endpoint: string): Promise<
  * Generate a coding interview problem based on configuration.
  * POST /api/ai/coding-interview/generate-problem
  */
-export async function generateProblem(params: GenerateProblemParams): Promise<GeneratedProblem> {
+export async function generateProblem(params: GenerateProblemParams): Promise<RichProblem> {
   const endpoint = '/api/ai/coding-interview/generate-problem';
   const response = await fetchWithTimeout(endpoint, params);
-  return handleResponse<GeneratedProblem>(response, endpoint);
+  return handleResponse<RichProblem>(response, endpoint);
 }
 
 /**

@@ -51,6 +51,7 @@ export function InterviewModule(props: InterviewModuleProps) {
 
   /**
    * Request a hint at the given level from the AI service.
+   * This is used as a fallback when no pre-generated hint is available.
    */
   const handleRequestHint = useCallback(
     async (level: number) => {
@@ -313,6 +314,9 @@ export function InterviewModule(props: InterviewModuleProps) {
                 onChange={setCode}
                 language={language}
                 boilerplate={problem?.boilerplate ?? ''}
+                starterCode={problem?.starterCode}
+                providedCode={problem?.providedCode}
+                helperFunctions={problem?.helperFunctions}
               />
             </div>
 

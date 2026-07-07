@@ -1,5 +1,6 @@
 'use client';
 
+import { useCallback } from 'react';
 import { useInterviewStore } from '../store/interviewStore';
 
 interface HintPanelProps {
@@ -18,9 +19,29 @@ const levelLabels: Record<number, string> = {
 export function HintPanel({ onRequestHint, onShowSolution, isLoading = false }: HintPanelProps) {
   const hintsUsed = useInterviewStore((s) => s.hintsUsed);
   const hints = useInterviewStore((s) => s.hints);
+  const problem = useInterviewStore((s) => s.problem);
+  const addHint = useInterviewStore((s) => s.addHint);
 
   const allHintsConsumed = hintsUsed >= 4;
   const nextLevel = hintsUsed + 1;
+
+  /**
+   * When a hint is requested, check problem.hints for a pre-generated hint
+   * matching the requested level. If found, display immediately without an API call.
+   * If not found, fall back to the existing AI hint endpoint via onRequestHint.
+   */
+  const handleHintRequest = useCallback(
+    (level: number) => {
+      const preGenerated = problem?.hints?.find((h) => h.level === level);
+      if (preGenerated) {
+        addHint(preGenerated.content);
+        return;
+      }
+      // Fall back to AI hint endpoint
+      onRequestHint(level);
+    },
+    [problem, addHint, onRequestHint]
+  );
 
   return (
     <div className="rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-4 space-y-4">
@@ -45,7 +66,7 @@ export function HintPanel({ onRequestHint, onShowSolution, isLoading = false }: 
 
       {/* Request hint button */}
       <button
-        onClick={() => onRequestHint(nextLevel)}
+        onClick={() => handleHintRequest(nextLevel)}
         disabled={allHintsConsumed || isLoading}
         className="w-full px-3 py-2 text-sm font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/30 flex items-center justify-center gap-2"
       >

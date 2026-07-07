@@ -6,12 +6,12 @@ import type {
   InterviewState,
   InterviewPhase,
   InterviewSource,
-  GeneratedProblem,
   EvaluationReport,
   ConversationMessage,
   ScoringReport,
   SessionSummary,
 } from '../lib/types';
+import type { RichProblem } from '../lib/schemas';
 import { DEFAULT_DURATION } from '../lib/constants';
 import { loadPersistedState, persistState, clearPersistedState } from './persistence';
 
@@ -25,7 +25,7 @@ export interface InterviewActions {
   setCode: (code: string) => void;
 
   // Problem
-  setProblem: (problem: GeneratedProblem) => void;
+  setProblem: (problem: RichProblem) => void;
 
   // Timer
   tickTimer: () => void;
@@ -132,11 +132,11 @@ export const useInterviewStore = create<InterviewStore>()(
 
     setCode: (code: string) => set({ code }),
 
-    setProblem: (problem: GeneratedProblem) =>
+    setProblem: (problem: RichProblem) =>
       set({
         problem,
         boilerplate: problem.boilerplate,
-        code: problem.boilerplate,
+        code: problem.starterCode,
       }),
 
     tickTimer: () =>

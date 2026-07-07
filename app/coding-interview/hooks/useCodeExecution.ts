@@ -3,6 +3,7 @@
 import { useState, useCallback } from 'react';
 import { useInterviewStore } from '../store/interviewStore';
 import { executeCode } from '../services/executionService';
+import { adaptForWorker } from '../services/executionAdapter';
 import { evaluateCode } from '../lib/api';
 import { EXECUTION_TIMEOUT } from '../lib/constants';
 
@@ -32,6 +33,11 @@ export function useCodeExecution(): UseCodeExecutionReturn {
   /**
    * Run code against visible test cases without submitting.
    * Sets isExecuting to disable buttons during execution.
+   *
+   * When the problem has rich schema fields (executionConfig, providedCode, etc.),
+   * uses adaptForWorker to construct the worker request with proper code ordering,
+   * comparator injection, and timeout/memory limits from executionConfig.
+   * Falls back to legacy behavior when rich fields are not available.
    */
   const runCode = useCallback(async () => {
     if (!problem || isExecuting) return;
@@ -39,23 +45,49 @@ export function useCodeExecution(): UseCodeExecutionReturn {
     setIsExecuting(true);
 
     try {
-      const testCases = problem.samples.map((sample) => ({
-        input: sample.input,
-        expectedOutput: sample.output,
-      }));
+      // Use execution adapter when rich schema fields are available
+      const hasRichFields =
+        problem.executionConfig &&
+        problem.providedCode !== undefined &&
+        problem.helperFunctions !== undefined &&
+        problem.hiddenTestCases;
 
-      const result = await executeCode({
-        code,
-        language,
-        testCases,
-        timeout: EXECUTION_TIMEOUT,
-      });
+      if (hasRichFields) {
+        const { workerRequest, timeoutMs } = adaptForWorker(problem, code);
 
-      // Update store with execution result and increment count
-      useInterviewStore.setState((state) => ({
-        lastExecutionResult: result,
-        executionCount: state.executionCount + 1,
-      }));
+        const result = await executeCode({
+          code: workerRequest.code,
+          language,
+          testCases: workerRequest.testCases.map((tc) => ({
+            input: tc.input,
+            expectedOutput: tc.expectedOutput,
+          })),
+          timeout: timeoutMs,
+        });
+
+        useInterviewStore.setState((state) => ({
+          lastExecutionResult: result,
+          executionCount: state.executionCount + 1,
+        }));
+      } else {
+        // Legacy fallback: construct request manually from samples
+        const testCases = problem.samples.map((sample) => ({
+          input: sample.input,
+          expectedOutput: sample.output,
+        }));
+
+        const result = await executeCode({
+          code,
+          language,
+          testCases,
+          timeout: EXECUTION_TIMEOUT,
+        });
+
+        useInterviewStore.setState((state) => ({
+          lastExecutionResult: result,
+          executionCount: state.executionCount + 1,
+        }));
+      }
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Code execution failed';
       useInterviewStore.setState({
